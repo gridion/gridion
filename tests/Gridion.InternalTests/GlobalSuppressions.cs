@@ -1,0 +1,58 @@
+﻿// <copyright file="GlobalSuppressions.cs" company="Gridion">
+//     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
+// </copyright>
+// 
+// Licensed to the Apache Software Foundation (ASF) under one or more
+// contributor license agreements.  See the NOTICE file distributed with
+// this work for additional information regarding copyright ownership.
+// The ASF licenses this file to You under the Apache License, Version 2.0
+// (the "License"); you may not use this file except in compliance with
+// the License.  You may obtain a copy of the License at
+// 
+//      http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+// The latest version of this file can be found at https://github.com/gridion/gridion
+
+using System.Diagnostics.CodeAnalysis;
+
+[assembly:
+    SuppressMessage(
+        "Naming",
+        "CA1710:Identifiers should have correct suffix",
+        Justification = "The name is by design.",
+        Scope = "type",
+        Target = "~T:Gridion.Core.Collections.IDistributedList`1")]
+[assembly:
+    SuppressMessage(
+        "Naming",
+        "CA1710:Identifiers should have correct suffix",
+        Justification = "The name is by design.",
+        Scope = "type",
+        Target = "~T:Gridion.Core.Collections.IDistributedQueue`1")]
+[assembly:
+    SuppressMessage(
+        "Naming",
+        "CA1710:Identifiers should have correct suffix",
+        Justification = "The name is by design.",
+        Scope = "type",
+        Target = "~T:Gridion.Core.Collections.IDistributedSet`1")]
+[assembly:
+    SuppressMessage(
+        "StyleCop.CSharp.SpacingRules",
+        "SA1028:Code should not contain trailing whitespace",
+        Justification = "Reviewed. The suppression is OK here.",
+        Scope = "namespace",
+        Target = "~N:Gridion.Core")]
+[assembly:
+    SuppressMessage(
+        "StyleCop.CSharp.DocumentationRules",
+        "SA1636:File header copyright text should match",
+        Justification = "Reviewed. The suppression is OK here.",
+        Scope = "namespace",
+        Target = "~N:Gridion.Core")]

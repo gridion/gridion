@@ -1,0 +1,50 @@
+name: Gridion
+
+on: [push]
+
+jobs:
+  gridion-windows:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101  
+    - name: Setup chocolately
+      uses: actions/checkout@v1
+    - name: Setup opencover
+      uses: crazy-max/ghaction-chocolatey@v1
+      with: 
+        args: install opencover.portable        
+    - name: Restore the Gridion solution
+      run: dotnet restore Gridion.sln
+    - name: Build with dotnet
+      run: dotnet build -c Debug src/Gridion/Gridion.Core.csproj
+    - name: Run internal tests with dotnet
+      run: dotnet test --blame -c Debug tests/Gridion.InternalTests/Gridion.InternalTests.csproj
+    - name: Run public tests with dotnet
+      run: dotnet test --blame -c Debug tests/Gridion.Tests/Gridion.Tests.csproj     
+    - name: Build internal coverage
+      run: OpenCover.Console.Exe -target:"c:\Program Files\dotnet\dotnet.exe" -targetargs:"test -c Debug --no-build tests/Gridion.InternalTests/Gridion.InternalTests.csproj" -filter:"+[Gridion]* -[*Gridion.InternalTests*]* -[*Gridion.Tests*]* -[*JetBrains.Annotations*]*" -register -output:"coverage/gridion-internal.xml"
+    - name: Build public coverage
+      run: OpenCover.Console.Exe -target:"c:\Program Files\dotnet\dotnet.exe" -targetargs:"test -c Debug --no-build tests/Gridion.Tests/Gridion.Tests.csproj" -filter:"+[Gridion]* -[*Gridion.InternalTests*]* -[*Gridion.Tests*]* -[*JetBrains.Annotations*]*" -register -output:"coverage/gridion-public.xml" 
+    - uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} #required
+        file: coverage/gridion-internal.xml #optional
+        flags: internal_tests #optional
+        name: internal_tests #optional
+        fail_ci_if_error: true
+    - uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} #required
+        file: coverage/gridion-public.xml #optional
+        flags: public_tests #optional
+        name: public_tests #optional
+        fail_ci_if_error: true
+    - name: Pack Gridion nuget package
+      run: dotnet pack -c Release src/Gridion/Gridion.Core.csproj
+

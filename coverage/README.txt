@@ -1,0 +1,1 @@
+The folder to save coverate reports.

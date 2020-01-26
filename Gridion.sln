@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29521.150
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gridion.Core", "src\Gridion\Gridion.Core.csproj", "{F0F74642-E8AB-4288-A082-A081B6853C5E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gridion.Core.Client", "src\Gridion.Core.Client\Gridion.Core.Client.csproj", "{F85780CA-4697-4E7D-8F8E-7FE409A7304B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gridion", "Gridion", "{582861E5-5981-455A-B9E1-8643F78E96FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2F892053-F641-4353-AF57-5AA6A59D19EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gridion.Tests", "tests\Gridion.Tests\Gridion.Tests.csproj", "{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gridion.InternalTests", "tests\Gridion.InternalTests\Gridion.InternalTests.csproj", "{4FC34946-73D6-4A39-8275-58D3330E934E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{26A78F22-5AFA-4948-83F1-2A282CD655E9}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0F74642-E8AB-4288-A082-A081B6853C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0F74642-E8AB-4288-A082-A081B6853C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0F74642-E8AB-4288-A082-A081B6853C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0F74642-E8AB-4288-A082-A081B6853C5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FC34946-73D6-4A39-8275-58D3330E934E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FC34946-73D6-4A39-8275-58D3330E934E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FC34946-73D6-4A39-8275-58D3330E934E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FC34946-73D6-4A39-8275-58D3330E934E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F0F74642-E8AB-4288-A082-A081B6853C5E} = {582861E5-5981-455A-B9E1-8643F78E96FA}
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B} = {582861E5-5981-455A-B9E1-8643F78E96FA}
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174} = {2F892053-F641-4353-AF57-5AA6A59D19EB}
+		{4FC34946-73D6-4A39-8275-58D3330E934E} = {2F892053-F641-4353-AF57-5AA6A59D19EB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {764E7833-9166-4A13-AE7D-7FC2EDE5599A}
+	EndGlobalSection
+EndGlobal
