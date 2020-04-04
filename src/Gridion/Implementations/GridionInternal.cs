@@ -24,9 +24,10 @@ namespace Gridion.Core.Implementations
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+
     using Gridion.Core.Collections;
     using Gridion.Core.Configurations;
-    using Gridion.Core.Extensions;
+    using Gridion.Core.Interfaces.Internals;
     using Gridion.Core.Logging;
     using Gridion.Core.Server;
     using Gridion.Core.Services;
@@ -48,11 +49,6 @@ namespace Gridion.Core.Implementations
         ///     The <see cref="IGridion" /> configuration.
         /// </summary>
         private readonly GridionConfiguration configuration;
-
-        /// <summary>
-        ///     The reference to the <see cref="ILogger" /> instance.
-        /// </summary>
-        private readonly ILogger logger;
 
         /// <summary>
         ///     The reference to the node which wraps this <see cref="IGridion" /> instance.
@@ -77,7 +73,6 @@ namespace Gridion.Core.Implementations
                 new InMessengerService(),
                 new OutMessengerService(),
                 new ConsoleLogger());
-            this.logger = configuration.ServerConfiguration.Logger;
         }
 
         /// <summary>
@@ -91,6 +86,21 @@ namespace Gridion.Core.Implementations
 
         /// <inheritdoc />
         public ICluster Cluster => this;
+
+        /// <inheritdoc />
+        public long DistributedObjectNumber
+        {
+            get
+            {
+                long res = 0;
+                foreach (var nodeInternal in ClusterCurator.Instance.GetNodes())
+                {
+                    res += nodeInternal.DistributedObjectsNumber;
+                }
+
+                return res;
+            }
+        }
 
         /// <inheritdoc />
         ISet<INode> INodeGroup.Nodes
@@ -110,6 +120,17 @@ namespace Gridion.Core.Implementations
 
         /// <inheritdoc />
         string IGridion.Name => this.configuration.NodeName;
+
+        /// <summary>
+        ///  Gets a value indicating whether a <see cref="GridionInternal"/> instance is running.
+        /// </summary>
+        internal bool IsRunning
+        {
+            get
+            {
+                return this.node.IsRunning;
+            }
+        }
 
         /// <inheritdoc />
         public bool Equals(GridionInternal other)
@@ -186,7 +207,6 @@ namespace Gridion.Core.Implementations
         internal void Start()
         {
             this.node.Start();
-            this.logger.Info($"The node has been started on {this.configuration.ServerConfiguration}.");
         }
 
         /// <summary>
@@ -195,7 +215,6 @@ namespace Gridion.Core.Implementations
         internal void Stop()
         {
             this.node.Stop();
-            this.logger.Info($"The node on {this.configuration.ServerConfiguration} has been stopped.");
         }
 
         /// <summary>
@@ -210,21 +229,6 @@ namespace Gridion.Core.Implementations
                 ClusterCurator.Instance.Remove(this.node);
                 this.node.Dispose();
                 GridionFactory.RemoveGridion(this);
-            }
-        }
-
-        /// <inheritdoc />
-        public long DistributedObjectCount
-        {
-            get
-            {
-                long res = 0;
-                foreach (var nodeInternal in ClusterCurator.Instance.GetNodes())
-                {
-                    res += nodeInternal.DistributedObjectsCount;
-                }
-
-                return res;
             }
         }
     }

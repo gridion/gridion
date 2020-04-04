@@ -22,7 +22,7 @@
 namespace Gridion.Core.Interfaces.Internals
 {
     /// <summary>
-    /// Represents a data provider to send and receive raw data which works in memory (instead of network).
+    ///     Represents a data provider to send and receive raw data which works in memory (instead of network).
     /// </summary>
     /// <inheritdoc cref="IDataProvider" />
     internal interface IMemoryDataProvider : IDataProvider

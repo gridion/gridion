@@ -27,7 +27,7 @@ namespace Gridion.Core.Collections
     internal abstract class AbstractDistributedQueue<T> : Queue<T>, IDistributedQueue<T>
     {
         /// <summary>
-        ///    Initializes a new instance of the <see cref="Gridion.Core.Collections.AbstractDistributedQueue{T}" /> class.
+        ///     Initializes a new instance of the <see cref="Gridion.Core.Collections.AbstractDistributedQueue{T}" /> class.
         /// </summary>
         /// <param name="name">
         ///     The name of queue.

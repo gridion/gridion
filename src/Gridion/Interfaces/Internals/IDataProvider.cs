@@ -24,18 +24,18 @@ namespace Gridion.Core.Interfaces.Internals
     using System.Collections.Generic;
 
     /// <summary>
-    /// Represents a data provider to send and receive raw data.
+    ///     Represents a data provider to send and receive raw data.
     /// </summary>
     internal interface IDataProvider
     {
         /// <summary>
-        /// Receives the raw data.
+        ///     Receives the raw data.
         /// </summary>
         /// <returns>the raw data.</returns>
         IReadOnlyList<byte> Receive();
 
         /// <summary>
-        /// Sends the raw data.
+        ///     Sends the raw data.
         /// </summary>
         /// <param name="data">
         ///     The data to send.

@@ -31,23 +31,28 @@ namespace Gridion.Core.Properties
     internal class SR
     {
         /// <summary>
-        ///   Gets FailedServerToStart message.
+        ///     Gets FailedServerToStart message.
         /// </summary>
         internal static string FailedServerToStart => Resources.ResourceManager.GetString("FailedServerToStart", CultureInfo.CurrentCulture);
 
         /// <summary>
-        ///   Gets ShouldBeGreaterThanZero message.
+        ///     Gets ShouldBeGreaterThanZero message.
         /// </summary>
         internal static string ShouldBeGreaterThanZero => Resources.ResourceManager.GetString("ShouldBeGreaterThanZero", CultureInfo.CurrentCulture);
 
         /// <summary>
-        ///   Gets ShouldBeTrue message.
+        ///     Gets ShouldBeTrue message.
         /// </summary>
         internal static string ShouldBeTrue => Resources.ResourceManager.GetString("ShouldBeTrue", CultureInfo.CurrentCulture);
 
         /// <summary>
-        ///   Gets StoppedListening message.
+        ///     Gets StoppedListening message.
         /// </summary>
         internal static string StoppedToListen => Resources.ResourceManager.GetString("StoppedToListen", CultureInfo.CurrentCulture);
+        
+        /// <summary>
+        ///     Gets NodeWasAdded message.
+        /// </summary>
+        internal static string NodeWasAdded => Resources.ResourceManager.GetString("NodeWasAdded", CultureInfo.CurrentCulture);
     }
 }

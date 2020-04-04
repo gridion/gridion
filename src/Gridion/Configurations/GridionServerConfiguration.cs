@@ -26,7 +26,7 @@ namespace Gridion.Core.Configurations
     using Gridion.Core.Validators;
 
     /// <summary>
-    ///     Represents a configuration of <see cref="IGridionServer" /> instance.
+    ///     Represents a configuration of <see cref="Interfaces.Internals.IGridionServer" /> instance.
     /// </summary>
     internal class GridionServerConfiguration
     {

@@ -22,6 +22,7 @@
 namespace Gridion.Core
 {
     using System;
+
     using Gridion.Core.Collections;
 
     /// <summary>

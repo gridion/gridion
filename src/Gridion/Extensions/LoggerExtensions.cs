@@ -23,6 +23,7 @@ namespace Gridion.Core.Extensions
 {
     using Gridion.Core.Logging;
     using Gridion.Core.Utils;
+
     using JetBrains.Annotations;
 
     /// <summary>

@@ -120,6 +120,9 @@
   <data name="FailedServerToStart" xml:space="preserve">
     <value>An attempt to start server was failed. Check inner exceptions for details.</value>
   </data>
+  <data name="NodeWasAdded" xml:space="preserve">
+    <value>The node has been added already.</value>
+  </data>
   <data name="ShouldBeGreaterThanZero" xml:space="preserve">
     <value>The value should be greater than 0.</value>
   </data>

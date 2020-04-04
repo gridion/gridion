@@ -22,6 +22,7 @@
 namespace Gridion.Tests
 {
     using Gridion.Core;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

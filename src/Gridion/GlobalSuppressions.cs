@@ -42,17 +42,3 @@ using System.Diagnostics.CodeAnalysis;
         Justification = "The name is by design.",
         Scope = "type",
         Target = "~T:Gridion.Core.Collections.IDistributedSet`1")]
-[assembly:
-    SuppressMessage(
-        "StyleCop.CSharp.SpacingRules",
-        "SA1028:Code should not contain trailing whitespace",
-        Justification = "Reviewed. The suppression is OK here.",
-        Scope = "namespace",
-        Target = "~N:Gridion.Core")]
-[assembly:
-    SuppressMessage(
-        "StyleCop.CSharp.DocumentationRules",
-        "SA1636:File header copyright text should match",
-        Justification = "Reviewed. The suppression is OK here.",
-        Scope = "namespace",
-        Target = "~N:Gridion.Core")]

@@ -23,6 +23,8 @@ namespace Gridion.InternalTests
 {
     using Gridion.Core;
     using Gridion.Core.Configurations;
+    using Gridion.Core.Interfaces.Internals;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -31,6 +33,24 @@ namespace Gridion.InternalTests
     [TestClass]
     public class ClusterTests
     {
+        /// <summary>
+        ///     Tests a number of distributed objects.
+        /// </summary>
+        [TestMethod]
+        public void DistributedObjectsNumberTest()
+        {
+            using (var gridion = GridionFactory.Start())
+            {
+                using (var gridion2 = GridionFactory.Start(new GridionConfiguration("Node2", "127.0.0.1", 24001)))
+                {
+                    gridion.GetDictionary<string, string>("test1");
+                    gridion2.GetDictionary<string, string>("test2");
+                    Assert.AreEqual(2, ((IClusterInternal)gridion.Cluster).DistributedObjectNumber);
+                    Assert.AreEqual(2, ((IClusterInternal)gridion2.Cluster).DistributedObjectNumber);
+                }
+            }
+        }
+
         /// <summary>
         ///     Tests a communication of group of nodes.
         /// </summary>
@@ -51,22 +71,10 @@ namespace Gridion.InternalTests
                 Assert.AreEqual(1, gridion.Cluster.Nodes.Count);
             }
         }
-        
-        [TestMethod]
-        public void NumberOfDistributedObjectsTest()
-        {
-            using (var gridion = GridionFactory.Start())
-            {
-                using (var gridion2 = GridionFactory.Start(new GridionConfiguration("Node2", "127.0.0.1", 24001)))
-                {
-                    gridion.GetDictionary<string, string>("test1");
-                    gridion2.GetDictionary<string, string>("test2");
-                    Assert.AreEqual(2, ((IClusterInternal)gridion.Cluster).DistributedObjectCount);
-                    Assert.AreEqual(2, ((IClusterInternal)gridion2.Cluster).DistributedObjectCount);
-                }
-            }
-        }
-        
+
+        /// <summary>
+        ///     Tests a master node functionality.
+        /// </summary>
         [TestMethod]
         public void MasterNodeTest()
         {
@@ -80,7 +88,7 @@ namespace Gridion.InternalTests
 
                 using (var gridion2 = GridionFactory.Start(new GridionConfiguration("Node2", "127.0.0.1", 24001)))
                 {
-                    int number = 0;
+                    var number = 0;
                     foreach (var node1 in gridion2.Cluster.Nodes)
                     {
                         var node = (INodeInternal)node1;

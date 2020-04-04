@@ -19,16 +19,20 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.InternalTests.DistributedCollections
+namespace Gridion.InternalTests.DistributedCollections.SingleNode
 {
+    using System.Diagnostics.CodeAnalysis;
+
     using Gridion.Core;
     using Gridion.Core.Collections;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     ///     Represents a set of test methods for <see cref="IDistributedList{T}" /> interface.
     /// </summary>
     [TestClass]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed.")]
     public class DistributedListTests
     {
         /// <summary>
@@ -76,7 +80,7 @@ namespace Gridion.InternalTests.DistributedCollections
         }
 
         /// <summary>
-        ///     Tests the "Integer System.Collections.Generic.ICollection`1[System.Object].get_Count" method.
+        ///     Tests the "Int32 System.Collections.Generic.ICollection`1[System.Object].get_Count" method.
         /// </summary>
         [TestMethod]
         public void GetCount1Test()
@@ -131,7 +135,7 @@ namespace Gridion.InternalTests.DistributedCollections
         }
 
         /// <summary>
-        ///     Tests the "String Collections.IDistributedCollection.get_Name" method.
+        ///     Tests the "String Gridion.Core.Collections.IDistributedCollection.get_Name" method.
         /// </summary>
         [TestMethod]
         public void GetName1Test()
@@ -142,7 +146,7 @@ namespace Gridion.InternalTests.DistributedCollections
         }
 
         /// <summary>
-        ///     Tests the "Integer System.Collections.Generic.IList`1[System.Object].IndexOf" method.
+        ///     Tests the "Int32 System.Collections.Generic.IList`1[System.Object].IndexOf" method.
         /// </summary>
         [TestMethod]
         public void IndexOf1Test()

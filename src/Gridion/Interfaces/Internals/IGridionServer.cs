@@ -19,11 +19,13 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core
+namespace Gridion.Core.Interfaces.Internals
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+
+    using Gridion.Core.Configurations;
     using Gridion.Core.Server;
 
     /// <summary>
@@ -36,6 +38,11 @@ namespace Gridion.Core
         ///     Gets a value of <see cref="GridionServer" /> ID.
         /// </summary>
         GridionServerId Id { get; }
+        
+        /// <summary>
+        ///     Gets the server configuration.
+        /// </summary>
+        GridionServerConfiguration Configuration { get; }
 
         /// <summary>
         ///     Gets a value indicating whether the server is listening of incoming connections or not.

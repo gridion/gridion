@@ -22,16 +22,17 @@
 namespace Gridion.Core.Server
 {
     using System;
+
     using Gridion.Core.Utils;
 
     /// <summary>
-    ///     A wrapper for <see cref="IGridionServer" /> ID.
+    ///     A wrapper for <see cref="Interfaces.Internals.IGridionServer" /> ID.
     /// </summary>
     /// <inheritdoc cref="IEquatable{T}" />
     internal class GridionServerId : IEquatable<GridionServerId>
     {
         /// <summary>
-        ///     The ID of <see cref="IGridionServer" />.
+        ///     The ID of <see cref="Interfaces.Internals.IGridionServer" />.
         /// </summary>
         private readonly string id;
 
@@ -56,7 +57,7 @@ namespace Gridion.Core.Server
                 return false;
             }
 
-            if (ReferenceEquals(this, other))
+            if (object.ReferenceEquals(this, other))
             {
                 return true;
             }
@@ -72,7 +73,7 @@ namespace Gridion.Core.Server
                 return false;
             }
 
-            if (ReferenceEquals(this, obj))
+            if (object.ReferenceEquals(this, obj))
             {
                 return true;
             }

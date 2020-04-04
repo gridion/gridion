@@ -23,6 +23,7 @@ namespace Gridion.Core
 {
     using System;
     using System.Collections.Generic;
+
     using Gridion.Core.Utils;
 
     /// <summary>
@@ -162,7 +163,7 @@ namespace Gridion.Core
                     return false;
                 }
 
-                if (ReferenceEquals(this, other))
+                if (object.ReferenceEquals(this, other))
                 {
                     return true;
                 }
@@ -178,7 +179,7 @@ namespace Gridion.Core
                     return false;
                 }
 
-                if (ReferenceEquals(this, obj))
+                if (object.ReferenceEquals(this, obj))
                 {
                     return true;
                 }

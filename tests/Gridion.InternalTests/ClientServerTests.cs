@@ -22,11 +22,14 @@
 namespace Gridion.InternalTests
 {
     using System.Threading;
+
     using Gridion.Core;
     using Gridion.Core.Client;
     using Gridion.Core.Client.Configurations;
     using Gridion.Core.Configurations;
+    using Gridion.Core.Interfaces.Internals;
     using Gridion.Core.Server;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

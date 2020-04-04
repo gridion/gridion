@@ -24,6 +24,7 @@ namespace Gridion.Core.Extensions
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+
     using Gridion.Core.Utils;
 
     /// <summary>
@@ -55,7 +56,7 @@ namespace Gridion.Core.Extensions
             Should.NotBeNull(task, nameof(task));
 
             var tcs = new TaskCompletionSource<bool>();
-            using (cancellationToken.Register(s => ((TaskCompletionSource<bool>)s).TrySetResult(true), tcs))
+            using (cancellationToken.Register(s => ((TaskCompletionSource<bool>)s)?.TrySetResult(true), tcs))
             {
                 if (task != await Task.WhenAny(task, tcs.Task).ConfigureAwait(false))
                 {

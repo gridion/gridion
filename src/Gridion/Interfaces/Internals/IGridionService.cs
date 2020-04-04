@@ -19,7 +19,7 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core.Services
+namespace Gridion.Core.Interfaces.Internals
 {
     using System;
 

@@ -23,19 +23,22 @@ namespace Gridion.Core
 {
     using System;
     using System.Collections.Generic;
+
     using Gridion.Core.Interfaces.Implementations;
     using Gridion.Core.Interfaces.Internals;
+    using Gridion.Core.Properties;
+    using Gridion.Core.Utils;
 
     /// <inheritdoc />
     internal class ClusterCurator : IClusterCurator
     {
         /// <summary>
-        /// The cluster initialization.
+        ///     The cluster initialization.
         /// </summary>
         private static readonly Lazy<IClusterCurator> Lazy = new Lazy<IClusterCurator>(() => new ClusterCurator());
 
         /// <summary>
-        /// The list of nodes.
+        ///     The list of nodes.
         /// </summary>
         private readonly ISet<INodeInternal> nodes;
 
@@ -49,23 +52,12 @@ namespace Gridion.Core
         }
 
         /// <summary>
-        /// Gets the instance of a <see cref="ClusterCurator"/> class.
+        ///     Gets the instance of a <see cref="ClusterCurator" /> class.
         /// </summary>
         public static IClusterCurator Instance => Lazy.Value;
 
         /// <inheritdoc />
         public IDataProvider DataProvider { get; }
-
-        /// <inheritdoc />
-        public void Join(INodeInternal node)
-        {
-            if (this.nodes.Count == 0)
-            {
-                node.IsMasterNode = true;
-            }
-
-            this.nodes.Add(node);
-        }
 
         /// <inheritdoc />
         public IEnumerable<INodeInternal> GetNodes()
@@ -81,9 +73,42 @@ namespace Gridion.Core
         }
 
         /// <inheritdoc />
+        public void Join(INodeInternal node)
+        {
+            Should.NotBeNull(node, nameof(node));
+
+            if (this.nodes.Contains(node))
+            {
+                throw new InvalidOperationException(SR.NodeWasAdded);
+            }
+            
+            this.nodes.Add(node);
+
+            var master = this.FindTheMasterNode();
+            if (master == null)
+            {
+                node.IsMasterNode = true;
+            }
+        }
+
+        /// <inheritdoc />
         public void Remove(INodeInternal node)
         {
             this.nodes.Remove(node);
+        }
+
+        /// <inheritdoc />
+        public INodeInternal FindTheMasterNode()
+        {
+            foreach (var node in this.nodes)
+            {
+                if (node.IsMasterNode)
+                {
+                    return node;
+                }
+            }
+
+            return null;
         }
     }
 }

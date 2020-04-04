@@ -19,17 +19,17 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core
+namespace Gridion.Core.Interfaces.Internals
 {
     using System.Collections.Generic;
 
     /// <summary>
-    /// Represents an abstract node message.
+    ///     Represents an abstract node message.
     /// </summary>
     internal interface INodeMessage
     {
         /// <summary>
-        /// Gets a data of the message.
+        ///     Gets a data of the message.
         /// </summary>
         IReadOnlyList<byte> Data { get; }
     }

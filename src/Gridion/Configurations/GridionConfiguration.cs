@@ -23,6 +23,7 @@ namespace Gridion.Core.Configurations
 {
     using System;
     using System.Globalization;
+
     using Gridion.Core.Logging;
 
     /// <summary>

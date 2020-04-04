@@ -23,7 +23,9 @@ namespace Gridion.Core.Client.Utils
 {
     using System;
     using System.Diagnostics;
+
     using Gridion.Core.Client.Properties;
+
     using JetBrains.Annotations;
 
     /// <summary>
@@ -92,6 +94,28 @@ namespace Gridion.Core.Client.Utils
         internal static void NotBeNull(object value, string name)
         {
             if (value == null)
+            {
+                throw new ArgumentNullException(name);
+            }
+        }
+
+        /// <summary>
+        ///     Checks the string value is not null or empty.
+        /// </summary>
+        /// <param name="value">
+        ///     The value to check against to.
+        /// </param>
+        /// <param name="name">
+        ///     The parameter name.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown when the value is null.
+        /// </exception>
+        [DebuggerStepThrough]
+        [AssertionMethod]
+        internal static void NotBeNullOrEmpty(string value, string name)
+        {
+            if (string.IsNullOrEmpty(value))
             {
                 throw new ArgumentNullException(name);
             }

@@ -1,4 +1,4 @@
-﻿// <copyright file="IServiceJob.cs" company="Gridion">
+﻿// <copyright file="GridionInternalTests.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -19,12 +19,37 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core.Interfaces.Internals
+namespace Gridion.InternalTests
 {
+    using Gridion.Core;
+    using Gridion.Core.Configurations;
+    using Gridion.Core.Implementations;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     /// <summary>
-    ///     Represents a common interface of a service job.
+    ///     Represents a set of tests to check a <see cref="GridionInternal" /> class.
     /// </summary>
-    internal interface IServiceJob
+    [TestClass]
+    public class GridionInternalTests
     {
+        /// <summary>
+        ///     Tests a stopping of the <see cref="IGridion" /> instance.
+        /// </summary>
+        [TestMethod]
+        public void GridionStopTest()
+        {
+            var configuration = new GridionConfiguration("127.0.0.1", 24000);
+            
+            var gridionInternal = new GridionInternal(configuration);
+
+            gridionInternal.Start();
+
+            Assert.IsTrue(gridionInternal.IsRunning, "Invalid node state.");
+            
+            gridionInternal.Stop();
+
+            Assert.IsFalse(gridionInternal.IsRunning, "Invalid node state.");
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="IServiceJob.cs" company="Gridion">
+﻿// <copyright file="IClusterInternal.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -22,9 +22,14 @@
 namespace Gridion.Core.Interfaces.Internals
 {
     /// <summary>
-    ///     Represents a common interface of a service job.
+    ///     Represents a cluster of <see cref="Gridion.Core.IGridion" /> nodes with internal functionality.
     /// </summary>
-    internal interface IServiceJob
+    /// <inheritdoc />
+    internal interface IClusterInternal : ICluster
     {
+        /// <summary>
+        ///     Gets the number of distributed objects.
+        /// </summary>
+        long DistributedObjectNumber { get; }
     }
 }

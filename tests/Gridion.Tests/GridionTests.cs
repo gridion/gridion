@@ -24,8 +24,10 @@ namespace Gridion.Tests
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+
     using Gridion.Core;
     using Gridion.Core.Configurations;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

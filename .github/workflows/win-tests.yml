@@ -12,13 +12,18 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.101  
+        dotnet-version: 5.0.100-preview.2.20176.6  
     - name: Setup chocolately
       uses: actions/checkout@v1
     - name: Setup opencover
       uses: crazy-max/ghaction-chocolatey@v1
       with: 
-        args: install opencover.portable        
+        args: install opencover.portable
+    - name: Setup NuGet.exe for use with actions
+      uses: NuGet/setup-nuget@v1.0.2
+      with: 
+        nuget-version: '5.x'
+    - run: nuget restore Gridion.sln
     - name: Restore the Gridion solution
       run: dotnet restore Gridion.sln
     - name: Build with dotnet

@@ -70,6 +70,15 @@ namespace Gridion.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The node has been added already..
+        /// </summary>
+        internal static string NodeWasAdded {
+            get {
+                return ResourceManager.GetString("NodeWasAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The value should be greater than 0..
         /// </summary>
         internal static string ShouldBeGreaterThanZero {

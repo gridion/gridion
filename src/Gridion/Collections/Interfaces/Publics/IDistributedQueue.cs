@@ -33,8 +33,18 @@ namespace Gridion.Core.Collections
     /// <inheritdoc cref="ICollection" />
     /// <inheritdoc cref="IReadOnlyCollection{T}" />
     /// <inheritdoc cref="IDistributedCollection" />
-    public interface IDistributedQueue<out T> : IReadOnlyCollection<T>,
-        IDistributedCollection
+    public interface IDistributedQueue<T> : IReadOnlyCollection<T>, IDistributedCollection
     {
+        /// <summary>
+        ///     Pop the item from the queue.
+        /// </summary>
+        /// <returns>the item.</returns>
+        T Dequeue();
+
+        /// <summary>
+        ///     Enqueue the item from the queue.
+        /// </summary>
+        /// <param name="item">The item to enqueue.</param>
+        void Enqueue(T item);
     }
 }

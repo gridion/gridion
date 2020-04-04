@@ -26,7 +26,9 @@ namespace Gridion.Core.Services
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
+
     using Gridion.Core.Collections;
+    using Gridion.Core.Interfaces.Internals;
 
     /// <summary>
     ///     Represents a service that is working with distributed collections.
@@ -130,10 +132,12 @@ namespace Gridion.Core.Services
                 {
                 }
             }
+
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (OperationCanceledException)
             {
             }
+
 #pragma warning restore CA1031 // Do not catch general exception types
         }
     }

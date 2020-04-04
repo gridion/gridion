@@ -1,4 +1,4 @@
-﻿// <copyright file="IServiceJob.cs" company="Gridion">
+﻿// <copyright file="DistributedListTests.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -19,12 +19,20 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core.Interfaces.Internals
+namespace Gridion.InternalTests.DistributedCollections.MultiNode
 {
+    using System.Diagnostics.CodeAnalysis;
+
+    using Gridion.Core.Collections;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     /// <summary>
-    ///     Represents a common interface of a service job.
+    ///     Represents a set of test methods for <see cref="IDistributedList{T}" /> interface.
     /// </summary>
-    internal interface IServiceJob
+    [TestClass]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed.")]
+    public class DistributedListTests
     {
     }
 }

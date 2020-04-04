@@ -21,6 +21,8 @@
 
 namespace Gridion.Core.Services
 {
+    using Gridion.Core.Interfaces.Internals;
+
     /// <summary>
     ///     Represents a base <see cref="Gridion.Core.IGridion" /> service.
     /// </summary>

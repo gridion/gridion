@@ -25,8 +25,10 @@ namespace Gridion.Core.Server
     using System.Net.Sockets;
     using System.Threading;
     using System.Threading.Tasks;
+
     using Gridion.Core.Configurations;
     using Gridion.Core.Extensions;
+    using Gridion.Core.Interfaces.Internals;
     using Gridion.Core.Logging;
     using Gridion.Core.Properties;
     using Gridion.Core.Services;
@@ -38,11 +40,6 @@ namespace Gridion.Core.Server
     /// <inheritdoc cref="IGridionServer" />
     internal sealed class GridionServer : Disposable, IGridionServer
     {
-        /// <summary>
-        ///     The <see cref="GridionServer" /> configuration.
-        /// </summary>
-        private readonly GridionServerConfiguration configuration;
-
         /// <summary>
         ///     The <see cref="GridionServer" /> ID.
         /// </summary>
@@ -74,8 +71,8 @@ namespace Gridion.Core.Server
         {
             this.id = id;
             this.listener = listener;
-            this.configuration = configuration;
-            this.logger = this.configuration.Logger;
+            this.Configuration = configuration;
+            this.logger = this.Configuration.Logger;
         }
 
         /// <summary>
@@ -89,6 +86,9 @@ namespace Gridion.Core.Server
 
         /// <inheritdoc />
         public bool IsListening { get; private set; }
+        
+        /// <inheritdoc />
+        public GridionServerConfiguration Configuration { get; }
 
         /// <inheritdoc />
         GridionServerId IGridionServer.Id => this.id;
@@ -96,7 +96,7 @@ namespace Gridion.Core.Server
         /// <inheritdoc />
         public override string ToString()
         {
-            return this.configuration != null ? this.configuration.ToString() : "[Empty Server]";
+            return this.Configuration != null ? this.Configuration.ToString() : "[Empty Server]";
         }
 
         /// <inheritdoc />
@@ -105,7 +105,7 @@ namespace Gridion.Core.Server
             try
             {
                 this.listener.Start();
-                this.logger.Info($"Started to listening on {this.configuration.Address}.");
+                this.logger.Info($"Started to listening on {this.Configuration.Address}.");
                 this.IsListening = true;
                 while (true)
                 {
@@ -113,16 +113,18 @@ namespace Gridion.Core.Server
                     var client = await task.WithCancellationAsync(cancellationToken).ConfigureAwait(false);
                     if (client.Connected)
                     {
-                        this.configuration.Logger.Info($"Client has been connected to {this}");
+                        this.Configuration.Logger.Info($"Client has been connected to {this}");
                     }
                 }
             }
+
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (OperationCanceledException)
             {
                 this.IsListening = false;
                 this.logger.Info(SR.StoppedToListen);
             }
+
 #pragma warning restore CA1031 // Do not catch general exception types
             catch (SocketException e)
             {

@@ -28,9 +28,4 @@ namespace Gridion.Core
     public interface ICluster : INodeGroup
     {
     }
-
-    internal interface IClusterInternal : ICluster
-    {
-        long DistributedObjectCount { get; }
-    }
 }

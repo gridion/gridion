@@ -23,6 +23,7 @@ namespace Gridion.Core.Collections
 {
     using System.Collections;
     using System.Collections.Generic;
+
     using Gridion.Core.Utils;
 
     /// <summary>
@@ -40,7 +41,7 @@ namespace Gridion.Core.Collections
         private readonly ISet<T> set;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="DistributedSet{T}"/> class.
+        ///     Initializes a new instance of the <see cref="DistributedSet{T}" /> class.
         /// </summary>
         /// <param name="name">
         ///     The name of collection.

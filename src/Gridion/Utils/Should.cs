@@ -24,7 +24,9 @@ namespace Gridion.Core.Utils
     using System;
     using System.Diagnostics;
     using System.Runtime.Serialization;
+
     using Gridion.Core.Properties;
+
     using JetBrains.Annotations;
 
     /// <summary>
@@ -51,6 +53,28 @@ namespace Gridion.Core.Utils
             if (value <= 0)
             {
                 throw new ArgumentException(SR.ShouldBeGreaterThanZero, name);
+            }
+        }
+
+        /// <summary>
+        ///     Checks the type is serializable.
+        /// </summary>
+        /// <param name="type">
+        ///     The type to check against to.
+        /// </param>
+        /// <param name="name">
+        ///     The parameter name.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown when the value is null.
+        /// </exception>
+        [DebuggerStepThrough]
+        [AssertionMethod]
+        internal static void BeSerializable(Type type, string name)
+        {
+            if (!type.IsSerializable)
+            {
+                throw new SerializationException($"The type {type} of {name} is not serializable.");
             }
         }
 
@@ -99,7 +123,7 @@ namespace Gridion.Core.Utils
         [AssertionMethod]
         internal static void NotBeEqual(object value1, object value2, string name1, string name2)
         {
-            if (ReferenceEquals(value1, value2))
+            if (object.ReferenceEquals(value1, value2))
             {
                 throw new ArgumentException($"The references of value1 and value2 are equal: {name1}, {name2}");
             }
@@ -168,28 +192,6 @@ namespace Gridion.Core.Utils
             if (string.IsNullOrWhiteSpace(value))
             {
                 throw new ArgumentNullException(name);
-            }
-        }
-        
-        /// <summary>
-        ///     Checks the type is serializable.
-        /// </summary>
-        /// <param name="type">
-        ///     The type to check against to.
-        /// </param>
-        /// <param name="name">
-        ///     The parameter name.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        ///     Thrown when the value is null.
-        /// </exception>
-        [DebuggerStepThrough]
-        [AssertionMethod]
-        internal static void BeSerializable(Type type, string name)
-        {
-            if (!type.IsSerializable)
-            {
-                throw new SerializationException($"The type {type} of {name} is not serializable.");
             }
         }
     }

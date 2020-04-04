@@ -19,7 +19,7 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core
+namespace Gridion.Core.Interfaces.Internals
 {
     /// <summary>
     ///     Represents a node in a <see cref="INodeGroup" />.
@@ -28,7 +28,15 @@ namespace Gridion.Core
     /// <inheritdoc cref="IDistributedCollectionFactory" />
     internal interface INodeInternal : INode, IDistributedCollectionFactory
     {
-        long DistributedObjectsCount { get; }
+        /// <summary>
+        ///     Gets the number of distributed objects.
+        /// </summary>
+        long DistributedObjectsNumber { get; }
+        
+        /// <summary>
+        ///     Gets a value indicating whether the node is running.
+        /// </summary>
+        bool IsRunning { get; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether the node is a master node.

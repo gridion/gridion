@@ -23,9 +23,12 @@ namespace Gridion.InternalTests
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+
     using Gridion.Core.Extensions;
     using Gridion.Core.Logging;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     using NSubstitute;
 
     /// <summary>

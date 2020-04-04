@@ -23,8 +23,10 @@ namespace Gridion.Core
 {
     using System.Collections.Generic;
 
+    using Gridion.Core.Interfaces.Internals;
+
     /// <summary>
-    /// Represents an abstract node message.
+    ///     Represents an abstract node message.
     /// </summary>
     /// <inheritdoc cref="INodeMessage" />
     internal class DataNodeMessage : INodeMessage
@@ -41,7 +43,7 @@ namespace Gridion.Core
         }
 
         /// <summary>
-        /// Gets a raw data was wrapped into a message.
+        ///     Gets a raw data was wrapped into a message.
         /// </summary>
         /// <inheritdoc cref="INodeMessage" />
         public IReadOnlyList<byte> Data { get; }

@@ -22,9 +22,11 @@
 namespace Gridion.Tests
 {
     using System;
+
     using Gridion.Core;
     using Gridion.Core.Collections;
     using Gridion.Core.Configurations;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

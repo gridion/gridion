@@ -23,6 +23,7 @@ namespace Gridion.Core.Logging
 {
     using System;
     using System.Text;
+
     using Gridion.Core.Utils;
 
     /// <summary>
@@ -51,7 +52,7 @@ namespace Gridion.Core.Logging
                     sb.Append(": ");
                 }
 
-                sb.Append(this.ToString(level));
+                sb.Append(level.AsString());
                 sb.Append(": ");
                 if (args != null)
                 {
@@ -73,33 +74,8 @@ namespace Gridion.Core.Logging
                     Console.Write($@"{type}: ");
                 }
 
-                Console.WriteLine($@"{this.ToString(level)}: {message.ToString(formatProvider)}");
+                Console.WriteLine($@"{level.AsString()}: {message.ToString(formatProvider)}");
             }
-        }
-
-        /// <summary>
-        ///     Converts the <see cref="LogLevel" /> level to a string.
-        /// </summary>
-        /// <param name="level">
-        ///     The level to convert.
-        /// </param>
-        /// <returns>
-        ///     a string representation of <see cref="LogLevel" /> item.
-        /// </returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     Thrown when the <see cref="LogLevel" /> item is not found.
-        /// </exception>
-        private string ToString(LogLevel level)
-        {
-            return level switch
-            {
-                LogLevel.Trace => "[TRACE]",
-                LogLevel.Debug => "[DEBUG]",
-                LogLevel.Info => "[INFO]",
-                LogLevel.Warn => "[WARN]",
-                LogLevel.Error => "[ERROR]",
-                _ => throw new ArgumentOutOfRangeException(nameof(level), level, null)
-            };
         }
     }
 }

@@ -22,6 +22,7 @@
 namespace Gridion.Core.Validators
 {
     using System.Net;
+
     using Gridion.Core.Configurations;
     using Gridion.Core.Utils;
 

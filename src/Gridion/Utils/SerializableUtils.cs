@@ -21,19 +21,25 @@
 
 namespace Gridion.Core.Utils
 {
-    using System;
-
-    public static class SerializableUtils
+    /// <summary>
+    ///     The set of utility methods used for serialization needs.
+    /// </summary>
+    internal static class SerializableUtils
     {
-        public static bool IsSerializable(this object obj)
+        /// <summary>
+        ///     Checks that object is serializable.
+        /// </summary>
+        /// <param name="obj">The object to check.</param>
+        /// <returns>true if object is serializable, false otherwise.</returns>
+        internal static bool IsSerializable(this object obj)
         {
             if (obj == null)
             {
                 return false;
             }
 
-            Type t = obj.GetType();
-            return t.IsSerializable;
+            var type = obj.GetType();
+            return type.IsSerializable;
         }
     }
 }

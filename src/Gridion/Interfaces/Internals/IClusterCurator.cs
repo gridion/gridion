@@ -19,10 +19,9 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core
+namespace Gridion.Core.Interfaces.Internals
 {
     using System.Collections.Generic;
-    using Gridion.Core.Interfaces.Internals;
 
     /// <summary>
     ///     Represents a cluster manager.
@@ -30,26 +29,32 @@ namespace Gridion.Core
     internal interface IClusterCurator
     {
         /// <summary>
-        /// Gets the data provider.
+        ///     Gets the data provider.
         /// </summary>
         IDataProvider DataProvider { get; }
 
         /// <summary>
-        /// Join the node into the cluster.
+        ///     Returns a list of nodes in the cluster.
+        /// </summary>
+        /// <returns>an enumeration of nodes.</returns>
+        IEnumerable<INodeInternal> GetNodes();
+
+        /// <summary>
+        ///     Join the node into the cluster.
         /// </summary>
         /// <param name="node">The node to add.</param>
         void Join(INodeInternal node);
 
         /// <summary>
-        /// Returns a list of nodes in the cluster.
-        /// </summary>
-        /// <returns>an enumeration of nodes.</returns>
-        IEnumerable<INodeInternal> GetNodes();
-        
-        /// <summary>
-        /// Remove the node from the list of active nodes.
+        ///     Remove the node from the list of active nodes.
         /// </summary>
         /// <param name="node">The node to remove.</param>
         void Remove(INodeInternal node);
+
+        /// <summary>
+        ///     Find the master node.
+        /// </summary>
+        /// <returns>the master node.</returns>
+        INodeInternal FindTheMasterNode();
     }
 }

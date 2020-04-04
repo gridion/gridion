@@ -22,16 +22,17 @@
 namespace Gridion.Core.Interfaces.Implementations
 {
     using System.Collections.Generic;
+
     using Gridion.Core.Interfaces.Internals;
 
     /// <summary>
-    /// Represents a data provider to send and recieve raw data which works in memory.
+    ///     Represents a data provider to send and recieve raw data which works in memory.
     /// </summary>
     /// <inheritdoc />
     internal class MemoryDataProvider : IMemoryDataProvider
     {
         /// <summary>
-        /// The cluster curator.
+        ///     The cluster curator.
         /// </summary>
         private readonly IClusterCurator curator;
 

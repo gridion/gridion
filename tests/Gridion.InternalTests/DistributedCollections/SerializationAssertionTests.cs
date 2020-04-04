@@ -22,59 +22,53 @@
 namespace Gridion.InternalTests.DistributedCollections
 {
     using System.Runtime.Serialization;
+
     using Gridion.Core.Collections;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    ///     Represents a set of test methods to check serialization restrictions of <see cref="Gridion"/> collections.
+    ///     Represents a set of test methods to check serialization restrictions of <see cref="Gridion" /> collections.
     /// </summary>
     [TestClass]
     public class SerializationAssertionTests
     {
         /// <summary>
-        ///     Tests a <see cref="DistributedDictionary{TKey,TValue}.Name" />.
+        ///     Tests that <see cref="DistributedDictionary{TKey,TValue}" /> check against serialization of key and value.
         /// </summary>
         [TestMethod]
-        public void DistributedDictionaryNameTest()
+        public void DistributedDictionarySerializationTest()
         {
-            Assert.ThrowsException<SerializationException>(() => new DistributedDictionary<Key, string>("dict"));
-            Assert.ThrowsException<SerializationException>(() => new DistributedDictionary<string, Value>("dict"));
-            Assert.ThrowsException<SerializationException>(() => new DistributedDictionary<Key, Value>("dict"));
-        }
-        
-        /// <summary>
-        ///     Tests a <see cref="DistributedList{T}.Name" />.
-        /// </summary>
-        [TestMethod]
-        public void DistributedListNameTest()
-        {
-            Assert.ThrowsException<SerializationException>(() => new DistributedList<Value>(""));
-        }
-        
-        /// <summary>
-        ///     Tests a <see cref="DistributedQueue{T}.Name" />.
-        /// </summary>
-        [TestMethod]
-        public void DistributedQueueNameTest()
-        {
-            Assert.ThrowsException<SerializationException>(() => new DistributedQueue<Value>(""));
-        }
-        
-        /// <summary>
-        ///     Tests a <see cref="DistributedSet{T}.Name" />.
-        /// </summary>
-        [TestMethod]
-        public void DistributedSetNameTest()
-        {
-            Assert.ThrowsException<SerializationException>(() => new DistributedSet<Value>(""));
+            Assert.ThrowsException<SerializationException>(() => new DistributedDictionary<SerializationAssertionTests, string>("dict"));
+            Assert.ThrowsException<SerializationException>(() => new DistributedDictionary<string, SerializationAssertionTests>("dict"));
+            Assert.ThrowsException<SerializationException>(() => new DistributedDictionary<SerializationAssertionTests, SerializationAssertionTests>("dict"));
         }
 
-        private class Key
+        /// <summary>
+        ///     Tests that <see cref="DistributedList{T}" /> check against serialization of value.
+        /// </summary>
+        [TestMethod]
+        public void DistributedListSerializationTest()
         {
+            Assert.ThrowsException<SerializationException>(() => new DistributedList<SerializationAssertionTests>(string.Empty));
         }
-        
-        private class Value
+
+        /// <summary>
+        ///     Tests that <see cref="DistributedQueue{T}" /> check against serialization of value.
+        /// </summary>
+        [TestMethod]
+        public void DistributedQueueSerializationTest()
         {
+            Assert.ThrowsException<SerializationException>(() => new DistributedQueue<SerializationAssertionTests>(string.Empty));
+        }
+
+        /// <summary>
+        ///     Tests that <see cref="DistributedSet{T}" /> check against serialization of value.
+        /// </summary>
+        [TestMethod]
+        public void DistributedSetSerializationTest()
+        {
+            Assert.ThrowsException<SerializationException>(() => new DistributedSet<SerializationAssertionTests>(string.Empty));
         }
     }
 }

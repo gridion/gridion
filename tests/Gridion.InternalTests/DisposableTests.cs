@@ -22,6 +22,7 @@
 namespace Gridion.InternalTests
 {
     using Gridion.Core.Services;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

@@ -22,7 +22,9 @@
 namespace Gridion.Core.Collections
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
+
     using Gridion.Core.Utils;
 
     /// <summary>
@@ -40,7 +42,7 @@ namespace Gridion.Core.Collections
         /// <summary>
         ///     The dictionary.
         /// </summary>
-        private readonly IDictionary<TKey, TValue> dictionary;
+        private readonly ConcurrentDictionary<TKey, TValue> dictionary;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="DistributedDictionary{TKey, TValue}" /> class.
@@ -55,14 +57,14 @@ namespace Gridion.Core.Collections
             Should.BeSerializable(typeof(TValue), "TKey");
 
             this.Name = name;
-            this.dictionary = new Dictionary<TKey, TValue>();
+            this.dictionary = new ConcurrentDictionary<TKey, TValue>();
         }
 
         /// <inheritdoc />
-        public int Count { get; }
+        public int Count => this.dictionary.Count;
 
         /// <inheritdoc />
-        public bool IsEmpty { get; }
+        public bool IsEmpty => this.dictionary.IsEmpty;
 
         /// <inheritdoc />
         public ICollection<TKey> Keys => this.dictionary.Keys;
@@ -84,13 +86,13 @@ namespace Gridion.Core.Collections
         /// <inheritdoc />
         public TValue AddOrUpdate(TKey key, Func<TKey, TValue> addValueFactory, Func<TKey, TValue, TValue> updateValueFactory)
         {
-            return default;
+            return this.dictionary.AddOrUpdate(key, addValueFactory, updateValueFactory);
         }
 
         /// <inheritdoc />
         public TValue AddOrUpdate(TKey key, TValue value, Func<TKey, TValue, TValue> updateValueFactory)
         {
-            return default;
+            return this.dictionary.AddOrUpdate(key, value, updateValueFactory);
         }
 
         /// <inheritdoc />
@@ -100,12 +102,13 @@ namespace Gridion.Core.Collections
             Func<TKey, TValue, TArgument, TValue> updateValueFactory,
             TArgument factoryArgument)
         {
-            return default;
+            return this.dictionary.AddOrUpdate(key, addValueFactory, updateValueFactory, factoryArgument);
         }
 
         /// <inheritdoc />
         public void Clear()
         {
+            this.dictionary.Clear();
         }
 
         /// <inheritdoc cref="IDictionary{T,V}" />
@@ -117,37 +120,37 @@ namespace Gridion.Core.Collections
         /// <inheritdoc />
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return null;
+            return this.dictionary.GetEnumerator();
         }
 
         /// <inheritdoc />
         public TValue GetOrAdd(TKey key, Func<TKey, TValue> valueFactory)
         {
-            return default;
+            return this.dictionary.GetOrAdd(key, valueFactory);
         }
 
         /// <inheritdoc />
         public TValue GetOrAdd(TKey key, TValue value)
         {
-            return default;
+            return this.dictionary.GetOrAdd(key, value);
         }
 
         /// <inheritdoc />
         public TValue GetOrAdd<TArgument>(TKey key, Func<TKey, TArgument, TValue> valueFactory, TArgument factoryArgument)
         {
-            return default;
+            return this.dictionary.GetOrAdd(key, valueFactory, factoryArgument);
         }
 
         /// <inheritdoc />
         public KeyValuePair<TKey, TValue>[] ToArray()
         {
-            throw new NotImplementedException();
+            return this.dictionary.ToArray();
         }
 
         /// <inheritdoc />
         public bool TryAdd(TKey key, TValue value)
         {
-            return false;
+            return this.dictionary.TryAdd(key, value);
         }
 
         /// <inheritdoc />
@@ -159,14 +162,13 @@ namespace Gridion.Core.Collections
         /// <inheritdoc />
         public bool TryRemove(TKey key, out TValue value)
         {
-            value = default;
-            return false;
+            return this.dictionary.TryRemove(key, out value);
         }
 
         /// <inheritdoc />
         public bool TryUpdate(TKey key, TValue newValue, TValue comparisonValue)
         {
-            return false;
+            return this.dictionary.TryUpdate(key, newValue, comparisonValue);
         }
     }
 }

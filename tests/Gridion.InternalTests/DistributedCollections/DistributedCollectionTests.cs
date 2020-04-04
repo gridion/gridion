@@ -1,4 +1,4 @@
-﻿// <copyright file="CommonDistributedCollectionTests.cs" company="Gridion">
+﻿// <copyright file="DistributedCollectionTests.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -22,24 +22,26 @@
 namespace Gridion.InternalTests.DistributedCollections
 {
     using System;
+
     using Gridion.Core.Collections;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     ///     Represents a set of test methods to check common properties of distributed collection.
     /// </summary>
     [TestClass]
-    public class CommonDistributedCollectionTests
+    public class DistributedCollectionTests
     {
         /// <summary>
-        ///     Tests a <see cref="DistributedDictionary{T,V}.Name" />.
+        ///     Tests a <see cref="DistributedDictionary{TKey,TValue}.Name" />.
         /// </summary>
         [TestMethod]
         public void DistributedDictionaryNameTest()
         {
             Assert.ThrowsException<ArgumentNullException>(() => new DistributedDictionary<string, string>(null));
         }
-        
+
         /// <summary>
         ///     Tests a <see cref="DistributedList{T}.Name" />.
         /// </summary>
@@ -48,7 +50,7 @@ namespace Gridion.InternalTests.DistributedCollections
         {
             Assert.ThrowsException<ArgumentNullException>(() => new DistributedList<string>(null));
         }
-        
+
         /// <summary>
         ///     Tests a <see cref="DistributedQueue{T}.Name" />.
         /// </summary>
@@ -57,7 +59,7 @@ namespace Gridion.InternalTests.DistributedCollections
         {
             Assert.ThrowsException<ArgumentNullException>(() => new DistributedQueue<string>(null));
         }
-        
+
         /// <summary>
         ///     Tests a <see cref="DistributedSet{T}.Name" />.
         /// </summary>

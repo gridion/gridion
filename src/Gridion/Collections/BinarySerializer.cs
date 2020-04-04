@@ -27,12 +27,12 @@ namespace Gridion.Core.Collections
     using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
-    /// Represents a common binary serializer.
+    ///     Represents a common binary serializer.
     /// </summary>
     internal static class BinarySerializer
     {
         /// <summary>
-        /// Deserializes a byte array into object.
+        ///     Deserializes a byte array into object.
         /// </summary>
         /// <param name="arr">The bytes to deserialize.</param>
         /// <returns>a deserialized object.</returns>
@@ -51,7 +51,7 @@ namespace Gridion.Core.Collections
         }
 
         /// <summary>
-        /// Serializes the object into a byte array.
+        ///     Serializes the object into a byte array.
         /// </summary>
         /// <param name="obj">The object to serialize.</param>
         /// <returns>a read-only list of bytes.</returns>
@@ -74,7 +74,29 @@ namespace Gridion.Core.Collections
         }
 
         /// <summary>
-        /// Decompresses the byte array.
+        ///     Compresses the byte array.
+        /// </summary>
+        /// <param name="input">The array to compress.</param>
+        /// <returns>a compressed array.</returns>
+        private static IReadOnlyList<byte> Compress(byte[] input)
+        {
+            IReadOnlyList<byte> compressesData;
+
+            using (var outputStream = new MemoryStream())
+            {
+                using (var zip = new GZipStream(outputStream, CompressionMode.Compress))
+                {
+                    zip.Write(input, 0, input.Length);
+                }
+
+                compressesData = outputStream.ToArray();
+            }
+
+            return compressesData;
+        }
+
+        /// <summary>
+        ///     Decompresses the byte array.
         /// </summary>
         /// <param name="input">The array to decompress.</param>
         /// <returns>a decompressed array.</returns>
@@ -96,28 +118,6 @@ namespace Gridion.Core.Collections
             }
 
             return decompressedData;
-        }
-
-        /// <summary>
-        /// Compresses the byte array.
-        /// </summary>
-        /// <param name="input">The array to compress.</param>
-        /// <returns>a compressed array.</returns>
-        private static IReadOnlyList<byte> Compress(byte[] input)
-        {
-            IReadOnlyList<byte> compressesData;
-
-            using (var outputStream = new MemoryStream())
-            {
-                using (var zip = new GZipStream(outputStream, CompressionMode.Compress))
-                {
-                    zip.Write(input, 0, input.Length);
-                }
-
-                compressesData = outputStream.ToArray();
-            }
-
-            return compressesData;
         }
     }
 }

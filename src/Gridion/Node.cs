@@ -25,7 +25,10 @@ namespace Gridion.Core
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
+
     using Gridion.Core.Collections;
+    using Gridion.Core.Extensions;
+    using Gridion.Core.Interfaces.Internals;
     using Gridion.Core.Logging;
     using Gridion.Core.Services;
     using Gridion.Core.Utils;
@@ -86,20 +89,20 @@ namespace Gridion.Core
     internal sealed class Node : Disposable, INodeInternal
     {
         /// <summary>
+        /// The lock object.
+        /// </summary>
+        private readonly object lockObject = new object();
+
+        /// <summary>
         ///     The cancellation token source to cancel operations.
         /// </summary>
         [SuppressMessage("Usage", "CA2213:Disposable fields should be disposed", Justification = "The field will be disposed in the DisposeManaged method.")]
         private readonly CancellationTokenSource cts = new CancellationTokenSource();
 
         /// <summary>
-        ///     The collection of initiated dictionaries on the node.
+        /// The node logger.
         /// </summary>
-        private readonly ConcurrentDictionary<string, object> dictionaryMap = new ConcurrentDictionary<string, object>();
-
-        /// <summary>
-        ///     The service that creates collections.
-        /// </summary>
-        private readonly IGridionCollectionService distributedCollectionService;
+        private readonly ILogger logger;
 
         /// <summary>
         ///     The associated <see cref="IGridionServer" /> instance.
@@ -107,19 +110,29 @@ namespace Gridion.Core
         private readonly IGridionServer gridionServer;
 
         /// <summary>
+        ///     The service that creates collections.
+        /// </summary>
+        private readonly IGridionCollectionService distributedCollectionService;
+
+        /// <summary>
         ///     The service that routes in messages.
         /// </summary>
         private readonly IGridionService inMessengerService;
 
         /// <summary>
-        ///     The collection of initiated lists on the node.
-        /// </summary>
-        private readonly ConcurrentDictionary<string, object> listMap = new ConcurrentDictionary<string, object>();
-
-        /// <summary>
         ///     The service that routes out messages.
         /// </summary>
         private readonly IGridionService outMessengerService;
+
+        /// <summary>
+        ///     The collection of initiated dictionaries on the node.
+        /// </summary>
+        private readonly ConcurrentDictionary<string, object> dictionaryMap = new ConcurrentDictionary<string, object>();
+
+        /// <summary>
+        ///     The collection of initiated lists on the node.
+        /// </summary>
+        private readonly ConcurrentDictionary<string, object> listMap = new ConcurrentDictionary<string, object>();
 
         /// <summary>
         ///     The collection of initiated queue on the node.
@@ -159,8 +172,7 @@ namespace Gridion.Core
             this.distributedCollectionService = distributedCollectionService;
             this.inMessengerService = inMessengerService;
             this.outMessengerService = outMessengerService;
-
-            ClusterCurator.Instance.Join(this);
+            this.logger = logger;
         }
 
         /// <summary>
@@ -173,7 +185,7 @@ namespace Gridion.Core
         }
 
         /// <inheritdoc />
-        public long DistributedObjectsCount
+        public long DistributedObjectsNumber
         {
             get
             {
@@ -185,6 +197,9 @@ namespace Gridion.Core
                 return res;
             }
         }
+
+        /// <inheritdoc />
+        public bool IsRunning { get; private set; }
 
         /// <inheritdoc />
         bool INodeInternal.IsMasterNode { get; set; }
@@ -261,16 +276,43 @@ namespace Gridion.Core
         /// <inheritdoc />
         public void Stop()
         {
-            this.cts.Cancel();
-            WaitHandle.WaitAny(new[] { this.cts.Token.WaitHandle });
+            lock (this.lockObject)
+            {
+                if (!this.IsRunning)
+                {
+                    return;
+                }
+
+                this.cts.Cancel();
+                
+                WaitHandle.WaitAny(new[] { this.cts.Token.WaitHandle });
+                
+                this.IsRunning = false;
+            }
+
+            this.logger.Info($"The node on {this.gridionServer.Configuration} has been stopped.");
         }
 
         /// <inheritdoc />
         void INodeInternal.Start()
         {
-            this.distributedCollectionService.Start();
-            this.inMessengerService.Start();
-            this.outMessengerService.Start();
+            lock (this.lockObject)
+            {
+                if (this.IsRunning)
+                {
+                    return;
+                }
+
+                this.distributedCollectionService.Start();
+                this.inMessengerService.Start();
+                this.outMessengerService.Start();
+
+                this.Join();
+
+                this.IsRunning = true;
+            }
+
+            this.logger.Info($"The node has been started on {this.gridionServer.Configuration}.");
         }
 
         /// <summary>
@@ -284,6 +326,14 @@ namespace Gridion.Core
             this.outMessengerService?.Dispose();
             this.gridionServer?.Dispose();
             this.cts?.Dispose();
+        }
+
+        /// <summary>
+        /// Join the node with others.
+        /// </summary>
+        private void Join()
+        {
+            ClusterCurator.Instance.Join(this);
         }
     }
 }
