@@ -23,7 +23,11 @@ namespace Gridion.InternalTests.DistributedCollections
 {
     using System;
 
+    using Gridion.Core;
     using Gridion.Core.Collections;
+    using Gridion.Core.Configurations;
+    using Gridion.Core.Interfaces.Internals;
+    using Gridion.Core.Logging;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -39,7 +43,16 @@ namespace Gridion.InternalTests.DistributedCollections
         [TestMethod]
         public void DistributedDictionaryNameTest()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new DistributedDictionary<string, string>(null));
+            Assert.ThrowsException<ArgumentNullException>(() => new DistributedDictionary<string, string>(null, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new DistributedDictionary<string, string>(string.Empty, null));
+            Assert.ThrowsException<ArgumentNullException>(
+                () =>
+                {
+                    var clusterCurator = NSubstitute.Substitute.For<IClusterCurator>();
+                    var logger = NSubstitute.Substitute.For<ILogger>();
+                    var parentNode = new Node(new GridionServerConfiguration("127.0.0.1", 1), clusterCurator, logger);
+                    return new DistributedDictionary<string, string>(null, parentNode);
+                });
         }
 
         /// <summary>
@@ -48,7 +61,14 @@ namespace Gridion.InternalTests.DistributedCollections
         [TestMethod]
         public void DistributedListNameTest()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new DistributedList<string>(null));
+            Assert.ThrowsException<ArgumentNullException>(() => new DistributedList<string>(null, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new DistributedList<string>(string.Empty, null));
+            Assert.ThrowsException<ArgumentNullException>(
+                () =>
+                {
+                    var node = NSubstitute.Substitute.For<INode>();
+                    return new DistributedList<string>(null, node);
+                });
         }
 
         /// <summary>
@@ -57,7 +77,14 @@ namespace Gridion.InternalTests.DistributedCollections
         [TestMethod]
         public void DistributedQueueNameTest()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new DistributedQueue<string>(null));
+            Assert.ThrowsException<ArgumentNullException>(() => new DistributedQueue<string>(null, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new DistributedQueue<string>(string.Empty, null));
+            Assert.ThrowsException<ArgumentNullException>(
+                () =>
+                {
+                    var node = NSubstitute.Substitute.For<INode>();
+                    return new DistributedQueue<string>(null, node);
+                });
         }
 
         /// <summary>
@@ -66,7 +93,14 @@ namespace Gridion.InternalTests.DistributedCollections
         [TestMethod]
         public void DistributedSetNameTest()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new DistributedSet<string>(null));
+            Assert.ThrowsException<ArgumentNullException>(() => new DistributedSet<string>(null, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new DistributedSet<string>(null, null));
+            Assert.ThrowsException<ArgumentNullException>(
+                () =>
+                {
+                    var node = NSubstitute.Substitute.For<INode>();
+                    return new DistributedSet<string>(null, node);
+                });
         }
     }
 }

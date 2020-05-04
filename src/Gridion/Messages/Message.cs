@@ -1,4 +1,4 @@
-﻿// <copyright file="IMemoryDataProvider.cs" company="Gridion">
+﻿// <copyright file="Message.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -19,13 +19,26 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core.Interfaces.Internals
+namespace Gridion.Core.Messages
 {
+    using Gridion.Core.Messages.Interfaces;
+
     /// <summary>
-    ///     Represents a data provider to send and receive raw data which works in memory (instead of network).
+    ///     Represents an abstract node message.
     /// </summary>
-    /// <inheritdoc cref="IDataProvider" />
-    internal interface IMemoryDataProvider : IDataProvider
+    /// <inheritdoc cref="IMessage" />
+    internal abstract class Message : IMessage
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="Message" /> class.
+        /// </summary>
+        /// <param name="sender">The message sender.</param>
+        internal Message(ISender sender)
+        {
+            this.Sender = sender;
+        }
+
+        /// <inheritdoc />
+        public ISender Sender { get; }
     }
 }

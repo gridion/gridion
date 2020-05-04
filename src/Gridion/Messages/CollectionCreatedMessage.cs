@@ -1,4 +1,4 @@
-﻿// <copyright file="IDataProvider.cs" company="Gridion">
+﻿// <copyright file="CollectionCreatedMessage.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -19,27 +19,35 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core.Interfaces.Internals
+namespace Gridion.Core.Messages
 {
-    using System.Collections.Generic;
+    using Gridion.Core.Collections;
+    using Gridion.Core.Messages.Interfaces;
 
     /// <summary>
-    ///     Represents a data provider to send and receive raw data.
+    ///  Represents a message that indicating that collection was created on the sender.
     /// </summary>
-    internal interface IDataProvider
+    /// <inheritdoc cref="Message"/>
+    internal abstract class CollectionCreatedMessage : Message
     {
         /// <summary>
-        ///     Receives the raw data.
+        ///     Initializes a new instance of the <see cref="CollectionCreatedMessage" /> class.
         /// </summary>
-        /// <returns>the raw data.</returns>
-        IReadOnlyList<byte> Receive();
+        /// <param name="sender">The message sender.</param>
+        /// <param name="name">The name of created collection.</param>
+        protected CollectionCreatedMessage(ISender sender, string name) 
+            : base(sender)
+        {
+            this.Name = name;
+        }
 
         /// <summary>
-        ///     Sends the raw data.
+        /// Gets a name of the collection.
         /// </summary>
-        /// <param name="data">
-        ///     The data to send.
-        /// </param>
-        void Send(IReadOnlyList<byte> data);
+        public string Name { get; }
+
+        /// <summary>Creates a collection.</summary>
+        /// <returns>the created collection.</returns>
+        internal abstract IDistributedCollection Create();
     }
 }

@@ -21,12 +21,14 @@
 
 namespace Gridion.Core.Interfaces.Internals
 {
+    using Gridion.Core.Messages.Interfaces;
+
     /// <summary>
     ///     Represents a node in a <see cref="INodeGroup" />.
     /// </summary>
     /// <inheritdoc cref="INode" />
     /// <inheritdoc cref="IDistributedCollectionFactory" />
-    internal interface INodeInternal : INode, IDistributedCollectionFactory
+    internal interface INodeInternal : IDistributedCollectionFactory, INode, ISender, IRecipient
     {
         /// <summary>
         ///     Gets the number of distributed objects.
@@ -44,12 +46,12 @@ namespace Gridion.Core.Interfaces.Internals
         bool IsMasterNode { get; set; }
 
         /// <summary>
-        ///     Accepts the binary data.
+        ///     Receives the message.
         /// </summary>
         /// <param name="message">
-        ///     The message.
+        ///     The message to receive.
         /// </param>
-        void AcceptData(INodeMessage message);
+        void Accept(IMessage message);
 
         /// <summary>
         ///     Starts the node.

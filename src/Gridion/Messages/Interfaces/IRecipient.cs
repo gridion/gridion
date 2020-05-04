@@ -1,4 +1,4 @@
-﻿// <copyright file="INodeMessage.cs" company="Gridion">
+﻿// <copyright file="IRecipient.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -19,18 +19,12 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core.Interfaces.Internals
+namespace Gridion.Core.Messages.Interfaces
 {
-    using System.Collections.Generic;
-
     /// <summary>
-    ///     Represents an abstract node message.
+    ///     Represents a recipient.
     /// </summary>
-    internal interface INodeMessage
+    internal interface IRecipient
     {
-        /// <summary>
-        ///     Gets a data of the message.
-        /// </summary>
-        IReadOnlyList<byte> Data { get; }
     }
 }

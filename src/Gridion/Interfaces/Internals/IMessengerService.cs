@@ -1,4 +1,4 @@
-﻿// <copyright file="INetworkDataProvider.cs" company="Gridion">
+﻿// <copyright file="IMessengerService.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -21,11 +21,26 @@
 
 namespace Gridion.Core.Interfaces.Internals
 {
+    using Gridion.Core.Messages.Interfaces;
+
     /// <summary>
-    ///     Represents a data provider to send and receive raw data over network.
+    ///     Represents a data provider to send and receive raw data.
     /// </summary>
-    /// <inheritdoc cref="IDataProvider" />
-    internal interface INetworkDataProvider : IDataProvider
+    /// <inheritdoc cref="IGridionService"/>
+    internal interface IMessengerService : IGridionService
     {
+        /// <summary>
+        ///     Accepts the message.
+        /// </summary>
+        /// <returns>the accepted message.</returns>
+        IMessage Accept();
+
+        /// <summary>
+        ///     Sends the message to all nodes.
+        /// </summary>
+        /// <param name="message">
+        ///     The message to send.
+        /// </param>
+        void SendToAll(IMessage message);
     }
 }

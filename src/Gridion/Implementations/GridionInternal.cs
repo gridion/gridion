@@ -29,7 +29,6 @@ namespace Gridion.Core.Implementations
     using Gridion.Core.Configurations;
     using Gridion.Core.Interfaces.Internals;
     using Gridion.Core.Logging;
-    using Gridion.Core.Server;
     using Gridion.Core.Services;
     using Gridion.Core.Utils;
     using Gridion.Core.Validators;
@@ -62,16 +61,18 @@ namespace Gridion.Core.Implementations
         /// <param name="configuration">
         ///     The configuration of <see cref="IGridion" /> instance.
         /// </param>
-        internal GridionInternal(GridionConfiguration configuration)
+        /// <param name="curator">
+        ///     The cluster curator.
+        /// </param>
+        internal GridionInternal(GridionConfiguration configuration, IClusterCurator curator)
         {
             GridionConfigurationValidator.Validate(configuration);
 
             this.configuration = configuration;
+            
             this.node = new Node(
-                GridionServerFactory.RegisterNewServer(this.configuration.ServerConfiguration),
-                new DistributedCollectionService(),
-                new InMessengerService(),
-                new OutMessengerService(),
+                configuration.ServerConfiguration,
+                curator,
                 new ConsoleLogger());
         }
 
@@ -86,21 +87,6 @@ namespace Gridion.Core.Implementations
 
         /// <inheritdoc />
         public ICluster Cluster => this;
-
-        /// <inheritdoc />
-        public long DistributedObjectNumber
-        {
-            get
-            {
-                long res = 0;
-                foreach (var nodeInternal in ClusterCurator.Instance.GetNodes())
-                {
-                    res += nodeInternal.DistributedObjectsNumber;
-                }
-
-                return res;
-            }
-        }
 
         /// <inheritdoc />
         ISet<INode> INodeGroup.Nodes
@@ -217,6 +203,13 @@ namespace Gridion.Core.Implementations
             this.node.Stop();
         }
 
+        /// <inheritdoc />
+        protected override void Dispose(bool disposing)
+        {
+            this.Stop();
+            base.Dispose(disposing);
+        }
+
         /// <summary>
         ///     Dispose the internal managed/unmanaged resources.
         /// </summary>
@@ -225,7 +218,6 @@ namespace Gridion.Core.Implementations
         {
             lock (Lock)
             {
-                this.Stop();
                 ClusterCurator.Instance.Remove(this.node);
                 this.node.Dispose();
                 GridionFactory.RemoveGridion(this);

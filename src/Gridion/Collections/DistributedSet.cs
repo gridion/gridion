@@ -44,19 +44,27 @@ namespace Gridion.Core.Collections
         ///     Initializes a new instance of the <see cref="DistributedSet{T}" /> class.
         /// </summary>
         /// <param name="name">
-        ///     The name of collection.
+        ///     The name of the collection.
         /// </param>
-        internal DistributedSet(string name)
+        /// <param name="parentNode">
+        ///     The parent node of the collection.
+        /// </param>
+        internal DistributedSet(string name, INode parentNode)
         {
             Should.NotBeNull(name, nameof(name));
+            Should.NotBeNull(parentNode, nameof(parentNode));
             Should.BeSerializable(typeof(T), "T");
 
             this.Name = name;
+            this.ParentNode = parentNode;
             this.set = new HashSet<T>();
         }
 
         /// <inheritdoc />
         public string Name { get; }
+
+        /// <inheritdoc />
+        public INode ParentNode { get; }
 
         /// <inheritdoc />
         int ICollection<T>.Count => this.set.Count;

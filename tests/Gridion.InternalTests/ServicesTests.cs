@@ -26,6 +26,8 @@ namespace Gridion.InternalTests
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    using NSubstitute;
+
     /// <summary>
     ///     Represents a set of tests for a testing of classes with <see cref="IGridionService" /> interface.
     /// </summary>
@@ -43,14 +45,11 @@ namespace Gridion.InternalTests
                 Assert.AreEqual("DistributedCollectionService", distributedCollectionService.Name);
             }
 
-            using (IGridionService inMessengerService = new InMessengerService())
-            {
-                Assert.AreEqual("InMessengerService", inMessengerService.Name);
-            }
+            var clusterCurator = Substitute.For<IClusterCurator>();
 
-            using (IGridionService outMessengerService = new OutMessengerService())
+            using (IGridionService outMessengerService = new MemoryMessengerService(clusterCurator))
             {
-                Assert.AreEqual("OutMessengerService", outMessengerService.Name);
+                Assert.AreEqual("MemoryMessengerService", outMessengerService.Name);
             }
         }
 
@@ -62,26 +61,20 @@ namespace Gridion.InternalTests
         {
             using (IGridionService distributedCollectionService = new DistributedCollectionService())
             {
-                using (IGridionService inMessengerService = new InMessengerService())
+                var clusterCurator = Substitute.For<IClusterCurator>();
+                using (IGridionService messengerService = new MemoryMessengerService(clusterCurator))
                 {
-                    using (IGridionService outMessengerService = new OutMessengerService())
-                    {
-                        distributedCollectionService.Start();
-                        inMessengerService.Start();
-                        outMessengerService.Start();
+                    distributedCollectionService.Start();
+                    messengerService.Start();
 
-                        Assert.IsTrue(distributedCollectionService.IsRunning);
-                        Assert.IsTrue(inMessengerService.IsRunning);
-                        Assert.IsTrue(outMessengerService.IsRunning);
+                    Assert.IsTrue(distributedCollectionService.IsRunning);
+                    Assert.IsTrue(messengerService.IsRunning);
 
-                        distributedCollectionService.Stop();
-                        inMessengerService.Stop();
-                        outMessengerService.Stop();
+                    distributedCollectionService.Stop();
+                    messengerService.Stop();
 
-                        Assert.IsFalse(distributedCollectionService.IsRunning);
-                        Assert.IsFalse(inMessengerService.IsRunning);
-                        Assert.IsFalse(outMessengerService.IsRunning);
-                    }
+                    Assert.IsFalse(distributedCollectionService.IsRunning);
+                    Assert.IsFalse(messengerService.IsRunning);
                 }
             }
         }

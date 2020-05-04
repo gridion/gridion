@@ -24,6 +24,7 @@ namespace Gridion.InternalTests
     using Gridion.Core;
     using Gridion.Core.Configurations;
     using Gridion.Core.Implementations;
+    using Gridion.Core.Interfaces.Internals;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -39,17 +40,30 @@ namespace Gridion.InternalTests
         [TestMethod]
         public void GridionStopTest()
         {
-            var configuration = new GridionConfiguration("127.0.0.1", 24000);
+            GridionInternal gridionInternal = null;
+            try
+            {
+                var configuration = new GridionConfiguration("127.0.0.1", 24000);
+
+                var clusterCurator = NSubstitute.Substitute.For<IClusterCurator>();
+
+                gridionInternal = new GridionInternal(configuration, clusterCurator);
+
+                gridionInternal.Start();
+
+                Assert.IsTrue(gridionInternal.IsRunning, "Invalid gridion node state.");
             
-            var gridionInternal = new GridionInternal(configuration);
+                gridionInternal.Stop();
 
-            gridionInternal.Start();
-
-            Assert.IsTrue(gridionInternal.IsRunning, "Invalid node state.");
-            
-            gridionInternal.Stop();
-
-            Assert.IsFalse(gridionInternal.IsRunning, "Invalid node state.");
+                Assert.IsFalse(gridionInternal.IsRunning, "Invalid gridion node state.");
+            }
+            finally
+            {
+                if (gridionInternal != null)
+                {
+                    gridionInternal.Dispose();
+                }
+            }
         }
     }
 }

@@ -33,12 +33,16 @@ namespace Gridion.Core.Collections
         ///     The name of queue.
         /// </param>
         /// <inheritdoc cref="Queue{T}" />
-        protected AbstractDistributedQueue(string name)
+        protected AbstractDistributedQueue(string name, INode parentNode)
         {
             this.Name = name;
+            this.ParentNode = parentNode;
         }
 
         /// <inheritdoc />
         public string Name { get; }
+        
+        /// <inheritdoc />
+        public INode ParentNode { get; }
     }
 }

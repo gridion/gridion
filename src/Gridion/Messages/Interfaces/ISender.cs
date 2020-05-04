@@ -1,4 +1,4 @@
-﻿// <copyright file="InMessengerService.cs" company="Gridion">
+﻿// <copyright file="ISender.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -19,18 +19,12 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core.Services
+namespace Gridion.Core.Messages.Interfaces
 {
     /// <summary>
-    ///     Represents a service which works with in messages.
+    ///     Represents a sender.
     /// </summary>
-    /// <inheritdoc />
-    internal class InMessengerService : GridionService
+    internal interface ISender
     {
-        /// <inheritdoc cref="GridionService" />
-        public InMessengerService()
-            : base("InMessengerService")
-        {
-        }
     }
 }

@@ -101,35 +101,6 @@ namespace Gridion.Core.Utils
         }
 
         /// <summary>
-        ///     Checks the values against the equality.
-        /// </summary>
-        /// <param name="value1">
-        ///     The first value to check against to.
-        /// </param>
-        /// ///
-        /// <param name="value2">
-        ///     The second value to check against to.
-        /// </param>
-        /// <param name="name1">
-        ///     The first value name.
-        /// </param>
-        /// <param name="name2">
-        ///     The second value name.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        ///     Thrown when the value is null.
-        /// </exception>
-        [DebuggerStepThrough]
-        [AssertionMethod]
-        internal static void NotBeEqual(object value1, object value2, string name1, string name2)
-        {
-            if (object.ReferenceEquals(value1, value2))
-            {
-                throw new ArgumentException($"The references of value1 and value2 are equal: {name1}, {name2}");
-            }
-        }
-
-        /// <summary>
         ///     Checks the value against the null.
         /// </summary>
         /// <param name="value">

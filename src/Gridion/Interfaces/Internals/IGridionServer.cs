@@ -35,14 +35,14 @@ namespace Gridion.Core.Interfaces.Internals
     internal interface IGridionServer : IDisposable
     {
         /// <summary>
-        ///     Gets a value of <see cref="GridionServer" /> ID.
-        /// </summary>
-        GridionServerId Id { get; }
-        
-        /// <summary>
         ///     Gets the server configuration.
         /// </summary>
         GridionServerConfiguration Configuration { get; }
+
+        /// <summary>
+        ///     Gets a value of <see cref="GridionServer" /> ID.
+        /// </summary>
+        GridionServerId Id { get; }
 
         /// <summary>
         ///     Gets a value indicating whether the server is listening of incoming connections or not.
@@ -59,5 +59,10 @@ namespace Gridion.Core.Interfaces.Internals
         ///     a task representing listening operation.
         /// </returns>
         Task StartListenAsync(CancellationToken token);
+
+        /// <summary>
+        ///     Stops the server.
+        /// </summary>
+        void Stop();
     }
 }

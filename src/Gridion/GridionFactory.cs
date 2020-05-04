@@ -163,10 +163,10 @@ PN Counter
             lock (GridionList)
             {
 #pragma warning disable CA2000 // Dispose objects before losing scope
-                var instance = new GridionInternal(configuration);
+                var instance = new GridionInternal(configuration, ClusterCurator.Instance);
 #pragma warning restore CA2000 // Dispose objects before losing scope
-                GridionList.Add(instance);
                 instance.Start();
+                GridionList.Add(instance);
                 return instance;
             }
         }

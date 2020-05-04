@@ -31,5 +31,10 @@ namespace Gridion.Core.Collections
         ///     Cannot be null.
         /// </summary>
         string Name { get; }
+
+        /// <summary>
+        /// Gets a parent node of the collection (where the collection was created).
+        /// </summary>
+        INode ParentNode { get; }
     }
 }

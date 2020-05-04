@@ -1,4 +1,4 @@
-﻿// <copyright file="HostValidator.cs" company="Gridion">
+﻿// <copyright file="INetworkMessenger.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -19,33 +19,13 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core.Validators
+namespace Gridion.Core.Interfaces.Internals
 {
-    using System.Diagnostics.CodeAnalysis;
-    using System.Net;
-
-    using Gridion.Core.Utils;
-
     /// <summary>
-    ///     Represents a set of operation to validate an IP address and its port.
+    ///     Represents a data provider to send and receive raw data over network.
     /// </summary>
-    [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Global", Justification = "This class is a precondition checker.")]
-    internal static class HostValidator
+    /// <inheritdoc cref="IMessengerService" />
+    internal interface INetworkMessenger : IMessengerService
     {
-        /// <summary>
-        ///     Validates an IP address and its port.
-        /// </summary>
-        /// <param name="host">
-        ///     The IP address to validate.
-        /// </param>
-        /// <param name="port">
-        ///     The port to validate.
-        /// </param>
-        internal static void Validate(string host, int port)
-        {
-            Should.NotBeNull(host, nameof(host));
-            Should.BeTrue(IPAddress.TryParse(host, out _), nameof(host));
-            Should.BePositive(port, nameof(port));
-        }
     }
 }

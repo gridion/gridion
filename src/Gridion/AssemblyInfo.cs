@@ -1,4 +1,4 @@
-﻿// <copyright file="DataNodeMessage.cs" company="Gridion">
+﻿// <copyright file="AssemblyInfo.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -19,33 +19,6 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core
-{
-    using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
-    using Gridion.Core.Interfaces.Internals;
-
-    /// <summary>
-    ///     Represents an abstract node message.
-    /// </summary>
-    /// <inheritdoc cref="INodeMessage" />
-    internal class DataNodeMessage : INodeMessage
-    {
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="DataNodeMessage" /> class.
-        /// </summary>
-        /// <param name="data">
-        ///     The data to wrap into a message.
-        /// </param>
-        public DataNodeMessage(IReadOnlyList<byte> data)
-        {
-            this.Data = data;
-        }
-
-        /// <summary>
-        ///     Gets a raw data was wrapped into a message.
-        /// </summary>
-        /// <inheritdoc cref="INodeMessage" />
-        public IReadOnlyList<byte> Data { get; }
-    }
-}
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

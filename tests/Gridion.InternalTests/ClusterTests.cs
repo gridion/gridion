@@ -37,7 +37,7 @@ namespace Gridion.InternalTests
         ///     Tests a number of distributed objects.
         /// </summary>
         [TestMethod]
-        public void DistributedObjectsNumberTest()
+        public void DistributedObjectsNumberTest1()
         {
             using (var gridion = GridionFactory.Start())
             {
@@ -45,8 +45,31 @@ namespace Gridion.InternalTests
                 {
                     gridion.GetDictionary<string, string>("test1");
                     gridion2.GetDictionary<string, string>("test2");
-                    Assert.AreEqual(2, ((IClusterInternal)gridion.Cluster).DistributedObjectNumber);
-                    Assert.AreEqual(2, ((IClusterInternal)gridion2.Cluster).DistributedObjectNumber);
+                 
+                    Assert.AreEqual(2, ClusterCurator.Instance.NumberOfDistributedCollections);
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Tests that total count of collections is correct.
+        /// </summary>
+        [TestMethod]
+        public void DistributedObjectsNumberTest2()
+        {
+            var configuration1 = new GridionConfiguration("node1", "127.0.0.1", 24000);
+            var configuration2 = new GridionConfiguration("node2", "127.0.0.1", 24001);
+            using (var gridion1 = GridionFactory.Start(configuration1))
+            {
+                using (var gridion2 = GridionFactory.Start(configuration2))
+                {
+                    // add a dict
+                    gridion1.GetDictionary<string, int>("testDictionary1");
+
+                    // get a dict
+                    gridion2.GetDictionary<string, int>("testDictionary1");
+
+                    Assert.AreEqual(1, ClusterCurator.Instance.NumberOfDistributedCollections);
                 }
             }
         }

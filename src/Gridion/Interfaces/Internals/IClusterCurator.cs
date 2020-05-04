@@ -24,14 +24,14 @@ namespace Gridion.Core.Interfaces.Internals
     using System.Collections.Generic;
 
     /// <summary>
-    ///     Represents a cluster manager.
+    ///     Represents a cluster manager. The manager is a global object that controls the node communications.
     /// </summary>
     internal interface IClusterCurator
     {
         /// <summary>
-        ///     Gets the data provider.
+        ///     Gets the number of distributed objects.
         /// </summary>
-        IDataProvider DataProvider { get; }
+        long NumberOfDistributedCollections { get; }
 
         /// <summary>
         ///     Returns a list of nodes in the cluster.
@@ -50,11 +50,5 @@ namespace Gridion.Core.Interfaces.Internals
         /// </summary>
         /// <param name="node">The node to remove.</param>
         void Remove(INodeInternal node);
-
-        /// <summary>
-        ///     Find the master node.
-        /// </summary>
-        /// <returns>the master node.</returns>
-        INodeInternal FindTheMasterNode();
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="MemoryDataProvider.cs" company="Gridion">
+﻿// <copyright file="MemoryMessengerService.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -19,46 +19,48 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core.Interfaces.Implementations
+namespace Gridion.Core.Services
 {
+    using System;
     using System.Collections.Generic;
 
     using Gridion.Core.Interfaces.Internals;
+    using Gridion.Core.Messages.Interfaces;
 
     /// <summary>
-    ///     Represents a data provider to send and recieve raw data which works in memory.
+    ///     Represents a service which works with in messages.
     /// </summary>
     /// <inheritdoc />
-    internal class MemoryDataProvider : IMemoryDataProvider
+    internal class MemoryMessengerService : MessengerService
     {
         /// <summary>
-        ///     The cluster curator.
+        /// The cluster curator.
         /// </summary>
         private readonly IClusterCurator curator;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="MemoryDataProvider" /> class.
-        /// </summary>
-        /// <param name="curator">
-        ///     The curator of the current cluster.
-        /// </param>
-        public MemoryDataProvider(IClusterCurator curator)
+        /// <inheritdoc cref="GridionService" />
+        public MemoryMessengerService(IClusterCurator curator)
+            : base("MemoryMessengerService")
         {
             this.curator = curator;
         }
 
-        /// <inheritdoc cref="IMemoryDataProvider" />
-        public IReadOnlyList<byte> Receive()
+        /// <inheritdoc />
+        public override IMessage Accept()
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public void Send(IReadOnlyList<byte> data)
+        public override void SendToAll(IMessage message)
         {
-            foreach (var node in this.curator.GetNodes())
+            IEnumerable<INodeInternal> nodeInternals = this.curator.GetNodes();
+            foreach (var node in nodeInternals)
             {
-                node.AcceptData(new DataNodeMessage(data));
+                if (!node.Equals(message.Sender))
+                {
+                    node.Accept(message);
+                }
             }
         }
     }

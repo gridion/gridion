@@ -21,6 +21,7 @@
 
 namespace Gridion.Core.Client.Validators
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Net;
 
     using Gridion.Core.Client.Utils;
@@ -28,6 +29,7 @@ namespace Gridion.Core.Client.Validators
     /// <summary>
     ///     Represents a set of operation to validate an IP address and its port.
     /// </summary>
+    [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Global", Justification = "This class is a precondition checker.")]
     internal static class HostValidator
     {
         /// <summary>

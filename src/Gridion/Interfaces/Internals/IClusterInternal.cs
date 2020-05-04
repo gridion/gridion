@@ -27,9 +27,5 @@ namespace Gridion.Core.Interfaces.Internals
     /// <inheritdoc />
     internal interface IClusterInternal : ICluster
     {
-        /// <summary>
-        ///     Gets the number of distributed objects.
-        /// </summary>
-        long DistributedObjectNumber { get; }
     }
 }

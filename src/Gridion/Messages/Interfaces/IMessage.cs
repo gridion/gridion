@@ -1,4 +1,4 @@
-﻿// <copyright file="OutMessengerService.cs" company="Gridion">
+﻿// <copyright file="IMessage.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -19,18 +19,16 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core.Services
+namespace Gridion.Core.Messages.Interfaces
 {
     /// <summary>
-    ///     Represents a service which works with out messages.
+    ///     Represents an abstract message.
     /// </summary>
-    /// <inheritdoc />
-    internal class OutMessengerService : GridionService
+    internal interface IMessage
     {
-        /// <inheritdoc cref="GridionService" />
-        public OutMessengerService()
-            : base("OutMessengerService")
-        {
-        }
+        /// <summary>
+        ///     Gets a sender of the message.
+        /// </summary>
+        ISender Sender { get; }
     }
 }

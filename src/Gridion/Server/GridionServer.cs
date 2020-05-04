@@ -132,6 +132,12 @@ namespace Gridion.Core.Server
             }
         }
 
+        /// <inheritdoc />
+        public void Stop()
+        {
+            GridionServerFactory.UnRegister(this);
+        }
+
         /// <summary>
         ///     Dispose the internal managed/unmanaged resources.
         /// </summary>

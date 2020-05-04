@@ -48,15 +48,20 @@ namespace Gridion.Core.Collections
         ///     Initializes a new instance of the <see cref="DistributedDictionary{TKey, TValue}" /> class.
         /// </summary>
         /// <param name="name">
-        ///     The name of collection.
+        ///     The name of the collection.
         /// </param>
-        internal DistributedDictionary(string name)
+        /// <param name="parentNode">
+        ///     The parent node of the collection.
+        /// </param>
+        public DistributedDictionary(string name, INode parentNode)
         {
             Should.NotBeNull(name, nameof(name));
+            Should.NotBeNull(parentNode, nameof(parentNode));
             Should.BeSerializable(typeof(TKey), "TKey");
             Should.BeSerializable(typeof(TValue), "TKey");
 
             this.Name = name;
+            this.ParentNode = parentNode;
             this.dictionary = new ConcurrentDictionary<TKey, TValue>();
         }
 
@@ -71,6 +76,9 @@ namespace Gridion.Core.Collections
 
         /// <inheritdoc />
         public string Name { get; }
+
+        /// <inheritdoc />
+        public INode ParentNode { get; }
 
         /// <inheritdoc />
         public ICollection<TValue> Values => this.dictionary.Values;

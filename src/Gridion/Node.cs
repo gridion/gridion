@@ -21,15 +21,20 @@
 
 namespace Gridion.Core
 {
+    using System;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
-    using System.Threading.Tasks;
 
     using Gridion.Core.Collections;
+    using Gridion.Core.Configurations;
     using Gridion.Core.Extensions;
     using Gridion.Core.Interfaces.Internals;
     using Gridion.Core.Logging;
+    using Gridion.Core.Messages;
+    using Gridion.Core.Messages.Interfaces;
+    using Gridion.Core.Server;
     using Gridion.Core.Services;
     using Gridion.Core.Utils;
 
@@ -86,12 +91,12 @@ namespace Gridion.Core
     ///     then oldest member will start the join process. If a member leaves the cluster though, because of a JVM crash for
     ///     example, cluster will immediately take action and oldest member will start the data recovery process.
     /// </p>
-    internal sealed class Node : Disposable, INodeInternal
+    internal sealed class Node : Disposable, INodeInternal, IEquatable<Node>
     {
         /// <summary>
         /// The lock object.
         /// </summary>
-        private readonly object lockObject = new object();
+        private readonly object @lock = new object();
 
         /// <summary>
         ///     The cancellation token source to cancel operations.
@@ -110,68 +115,56 @@ namespace Gridion.Core
         private readonly IGridionServer gridionServer;
 
         /// <summary>
-        ///     The service that creates collections.
-        /// </summary>
-        private readonly IGridionCollectionService distributedCollectionService;
-
-        /// <summary>
         ///     The service that routes in messages.
         /// </summary>
-        private readonly IGridionService inMessengerService;
+        private readonly IMessengerService inMessengerService;
 
         /// <summary>
         ///     The service that routes out messages.
         /// </summary>
-        private readonly IGridionService outMessengerService;
+        private readonly IMessengerService outMessengerService;
 
         /// <summary>
         ///     The collection of initiated dictionaries on the node.
         /// </summary>
         private readonly ConcurrentDictionary<string, object> dictionaryMap = new ConcurrentDictionary<string, object>();
 
-        /// <summary>
-        ///     The collection of initiated lists on the node.
-        /// </summary>
-        private readonly ConcurrentDictionary<string, object> listMap = new ConcurrentDictionary<string, object>();
+        ///// <summary>
+        /////     The collection of initiated lists on the node.
+        ///// </summary>
+        // private readonly ConcurrentDictionary<string, object> listMap = new ConcurrentDictionary<string, object>();
 
-        /// <summary>
-        ///     The collection of initiated queue on the node.
-        /// </summary>
-        private readonly ConcurrentDictionary<string, object> queueMap = new ConcurrentDictionary<string, object>();
+        ///// <summary>
+        /////     The collection of initiated queue on the node.
+        ///// </summary>
+        // private readonly ConcurrentDictionary<string, object> queueMap = new ConcurrentDictionary<string, object>();
 
-        /// <summary>
-        ///     The collection of initiated sets on the node.
-        /// </summary>
-        private readonly ConcurrentDictionary<string, object> setMap = new ConcurrentDictionary<string, object>();
+        ///// <summary>
+        /////     The collection of initiated sets on the node.
+        ///// </summary>
+        // private readonly ConcurrentDictionary<string, object> setMap = new ConcurrentDictionary<string, object>();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Node" /> class.
         /// </summary>
-        /// <param name="gridionServer">The server.</param>
-        /// <param name="distributedCollectionService">The collection service.</param>
-        /// <param name="inMessengerService">The in messenger service.</param>
-        /// <param name="outMessengerService">The out messenger service.</param>
+        /// <param name="configuration">The server configuration.</param>
+        /// <param name="curator">The cluster curator.</param>
         /// <param name="logger">The logger.</param>
         /// <exception cref="GridionException">
         ///     When there are presented some issues with server initialization then a <see cref="GridionException" /> is thrown.
         /// </exception>
         public Node(
-            IGridionServer gridionServer,
-            IGridionCollectionService distributedCollectionService,
-            IGridionService inMessengerService,
-            IGridionService outMessengerService,
+            GridionServerConfiguration configuration,
+            IClusterCurator curator,
             ILogger logger)
         {
-            Should.NotBeNull(gridionServer, nameof(gridionServer));
-            Should.NotBeNull(distributedCollectionService, nameof(distributedCollectionService));
-            Should.NotBeNull(inMessengerService, nameof(inMessengerService));
-            Should.NotBeEqual(inMessengerService, outMessengerService, nameof(inMessengerService), nameof(outMessengerService));
+            Should.NotBeNull(configuration, nameof(configuration));
+            Should.NotBeNull(curator, nameof(curator));
             Should.NotBeNull(logger, nameof(logger));
 
-            this.gridionServer = gridionServer;
-            this.distributedCollectionService = distributedCollectionService;
-            this.inMessengerService = inMessengerService;
-            this.outMessengerService = outMessengerService;
+            this.gridionServer = GridionServerFactory.RegisterNewServer(configuration);
+            this.inMessengerService = new MemoryMessengerService(curator);
+            this.outMessengerService = new MemoryMessengerService(curator);
             this.logger = logger;
         }
 
@@ -190,10 +183,18 @@ namespace Gridion.Core
             get
             {
                 long res = 0;
-                res += this.dictionaryMap.Count;
-                res += this.listMap.Count;
-                res += this.queueMap.Count;
-                res += this.setMap.Count;
+                foreach (KeyValuePair<string, object> pair in this.dictionaryMap)
+                {
+                    var collection = (IDistributedCollection)pair.Value;
+                    if (collection.ParentNode.Equals(this))
+                    {
+                        res++;
+                    }
+                }
+               
+                // res += this.listMap.Count;
+                // res += this.queueMap.Count;
+                // res += this.setMap.Count;
                 return res;
             }
         }
@@ -205,78 +206,49 @@ namespace Gridion.Core
         bool INodeInternal.IsMasterNode { get; set; }
 
         /// <inheritdoc />
-        public void AcceptData(INodeMessage message)
-        {
-        }
-
-        /// <inheritdoc />
         public IDistributedDictionary<TKey, TValue> GetOrCreateDictionary<TKey, TValue>(string name)
         {
-            if (this.dictionaryMap.TryGetValue(name, out var value))
+            lock (this.@lock)
             {
-                return (IDistributedDictionary<TKey, TValue>)value;
+                if (this.dictionaryMap.ContainsKey(name))
+                {
+                    return (IDistributedDictionary<TKey, TValue>)this.dictionaryMap[name];
+                }
+
+                var dictionary = new DistributedDictionary<TKey, TValue>(name, this);
+
+                var message = new DictionaryCreatedMessage(this, name, typeof(TKey), typeof(TValue));
+                
+                this.outMessengerService.SendToAll(message);
+                
+                this.dictionaryMap.TryAdd(name, dictionary);
+
+                return dictionary;
             }
-
-            Task<IDistributedDictionary<TKey, TValue>> task = this.distributedCollectionService.CreateDictionaryAsync<TKey, TValue>(name);
-
-            // ReSharper disable once AsyncConverter.AsyncWait
-            IDistributedDictionary<TKey, TValue> dictionary = task.Result;
-            this.dictionaryMap.AddOrUpdate(name, dictionary, (nm, val) => { return val; });
-            return dictionary;
         }
 
         /// <inheritdoc />
         public IDistributedList<T> GetOrCreateList<T>(string name)
         {
-            if (this.listMap.TryGetValue(name, out var value))
-            {
-                return (IDistributedList<T>)value;
-            }
-
-            Task<IDistributedList<T>> task = this.distributedCollectionService.CreateListAsync<T>(name);
-
-            // ReSharper disable once AsyncConverter.AsyncWait
-            IDistributedList<T> list = task.Result;
-            this.listMap.AddOrUpdate(name, list, (nm, val) => { return val; });
-            return list;
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
         public IDistributedQueue<T> GetOrCreateQueue<T>(string name)
         {
-            if (this.queueMap.TryGetValue(name, out var value))
-            {
-                return (IDistributedQueue<T>)value;
-            }
-
-            Task<IDistributedQueue<T>> task = this.distributedCollectionService.CreateQueueAsync<T>(name);
-
-            // ReSharper disable once AsyncConverter.AsyncWait
-            IDistributedQueue<T> queue = task.Result;
-            this.queueMap.AddOrUpdate(name, queue, (nm, val) => { return val; });
-            return queue;
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
         public IDistributedSet<T> GetOrCreateSet<T>(string name)
         {
-            if (this.setMap.TryGetValue(name, out var value))
-            {
-                return (IDistributedSet<T>)value;
-            }
-
-            Task<IDistributedSet<T>> task = this.distributedCollectionService.CreateSetAsync<T>(name);
-
-            // ReSharper disable once AsyncConverter.AsyncWait
-            IDistributedSet<T> set = task.Result;
-            this.setMap.AddOrUpdate(name, set, (nm, val) => { return val; });
-            return set;
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
         public void Stop()
         {
-            lock (this.lockObject)
+            lock (this.@lock)
             {
                 if (!this.IsRunning)
                 {
@@ -286,6 +258,8 @@ namespace Gridion.Core
                 this.cts.Cancel();
                 
                 WaitHandle.WaitAny(new[] { this.cts.Token.WaitHandle });
+
+                this.gridionServer.Stop();
                 
                 this.IsRunning = false;
             }
@@ -294,25 +268,67 @@ namespace Gridion.Core
         }
 
         /// <inheritdoc />
+        public void Accept(IMessage message)
+        {
+            Should.NotBeNull(message, nameof(message));
+
+            if (!(message is CollectionCreatedMessage actionMessage))
+            {
+                return;
+            }
+
+            var distributedCollection = actionMessage.Create();
+            this.dictionaryMap.TryAdd(actionMessage.Name, distributedCollection);
+        }
+
+        /// <inheritdoc />
         void INodeInternal.Start()
         {
-            lock (this.lockObject)
+            if (this.IsRunning)
             {
-                if (this.IsRunning)
-                {
-                    return;
-                }
-
-                this.distributedCollectionService.Start();
+                return;
+            }
+            
+            lock (this.@lock)
+            {
                 this.inMessengerService.Start();
                 this.outMessengerService.Start();
 
-                this.Join();
+                ClusterCurator.Instance.Join(this);
 
                 this.IsRunning = true;
             }
 
             this.logger.Info($"The node has been started on {this.gridionServer.Configuration}.");
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return this.gridionServer.ToString();
+        }
+
+        /// <inheritdoc />
+        public bool Equals(Node other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, other) || Equals(this.gridionServer, other.gridionServer);
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return object.ReferenceEquals(this, obj) || (obj is Node other && this.Equals(other));
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.gridionServer);
         }
 
         /// <summary>
@@ -321,19 +337,10 @@ namespace Gridion.Core
         /// <inheritdoc />
         protected override void DisposeManaged()
         {
-            this.distributedCollectionService?.Dispose();
             this.inMessengerService?.Dispose();
             this.outMessengerService?.Dispose();
             this.gridionServer?.Dispose();
             this.cts?.Dispose();
-        }
-
-        /// <summary>
-        /// Join the node with others.
-        /// </summary>
-        private void Join()
-        {
-            ClusterCurator.Instance.Join(this);
         }
     }
 }

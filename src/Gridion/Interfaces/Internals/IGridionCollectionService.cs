@@ -21,73 +21,69 @@
 
 namespace Gridion.Core.Interfaces.Internals
 {
-    using System.Threading.Tasks;
-
-    using Gridion.Core.Collections;
-
     /// <summary>
     ///     Represents a service that creates distributed collections.
     /// </summary>
     /// <inheritdoc />
     internal interface IGridionCollectionService : IGridionService
     {
-        /// <summary>
-        ///     Creates a distributed dictionary in async manner.
-        /// </summary>
-        /// <param name="name">
-        ///     The name of collection.
-        /// </param>
-        /// <typeparam name="TKey">
-        ///     The type of a key.
-        /// </typeparam>
-        /// <typeparam name="TValue">
-        ///     The type of a value.
-        /// </typeparam>
-        /// <returns>
-        ///     a created instance of distributed dictionary.
-        /// </returns>
-        Task<IDistributedDictionary<TKey, TValue>> CreateDictionaryAsync<TKey, TValue>(string name);
+        ///// <summary>
+        /////     Creates a distributed dictionary in async manner.
+        ///// </summary>
+        ///// <param name="name">
+        /////     The name of collection.
+        ///// </param>
+        ///// <typeparam name="TKey">
+        /////     The type of a key.
+        ///// </typeparam>
+        ///// <typeparam name="TValue">
+        /////     The type of a value.
+        ///// </typeparam>
+        ///// <returns>
+        /////     a created instance of distributed dictionary.
+        ///// </returns>
+        // Task<IDistributedDictionary<TKey, TValue>> CreateDictionaryAsync<TKey, TValue>(string name);
 
-        /// <summary>
-        ///     Creates a distributed list in async manner.
-        /// </summary>
-        /// <param name="name">
-        ///     The name of collection.
-        /// </param>
-        /// <typeparam name="T">
-        ///     The type of an item.
-        /// </typeparam>
-        /// <returns>
-        ///     a created instance of distributed list.
-        /// </returns>
-        Task<IDistributedList<T>> CreateListAsync<T>(string name);
+        ///// <summary>
+        /////     Creates a distributed list in async manner.
+        ///// </summary>
+        ///// <param name="name">
+        /////     The name of collection.
+        ///// </param>
+        ///// <typeparam name="T">
+        /////     The type of an item.
+        ///// </typeparam>
+        ///// <returns>
+        /////     a created instance of distributed list.
+        ///// </returns>
+        // Task<IDistributedList<T>> CreateListAsync<T>(string name);
 
-        /// <summary>
-        ///     Creates a distributed queue in async manner.
-        /// </summary>
-        /// <param name="name">
-        ///     The name of collection.
-        /// </param>
-        /// <typeparam name="T">
-        ///     The type of an item.
-        /// </typeparam>
-        /// <returns>
-        ///     a created instance of distributed queue.
-        /// </returns>
-        Task<IDistributedQueue<T>> CreateQueueAsync<T>(string name);
+        ///// <summary>
+        /////     Creates a distributed queue in async manner.
+        ///// </summary>
+        ///// <param name="name">
+        /////     The name of collection.
+        ///// </param>
+        ///// <typeparam name="T">
+        /////     The type of an item.
+        ///// </typeparam>
+        ///// <returns>
+        /////     a created instance of distributed queue.
+        ///// </returns>
+        // Task<IDistributedQueue<T>> CreateQueueAsync<T>(string name);
 
-        /// <summary>
-        ///     Creates a distributed set in async manner.
-        /// </summary>
-        /// <param name="name">
-        ///     The name of collection.
-        /// </param>
-        /// <typeparam name="T">
-        ///     The type of an item.
-        /// </typeparam>
-        /// <returns>
-        ///     a created instance of distributed set.
-        /// </returns>
-        Task<IDistributedSet<T>> CreateSetAsync<T>(string name);
+        ///// <summary>
+        /////     Creates a distributed set in async manner.
+        ///// </summary>
+        ///// <param name="name">
+        /////     The name of collection.
+        ///// </param>
+        ///// <typeparam name="T">
+        /////     The type of an item.
+        ///// </typeparam>
+        ///// <returns>
+        /////     a created instance of distributed set.
+        ///// </returns>
+        // Task<IDistributedSet<T>> CreateSetAsync<T>(string name);
     }
 }

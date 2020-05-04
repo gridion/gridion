@@ -44,14 +44,19 @@ namespace Gridion.Core.Collections
         ///     Initializes a new instance of the <see cref="DistributedList{T}" /> class.
         /// </summary>
         /// <param name="name">
-        ///     The name of collection.
+        ///     The name of the collection.
         /// </param>
-        internal DistributedList(string name)
+        /// <param name="parentNode">
+        ///     The parent node of the collection.
+        /// </param>
+        internal DistributedList(string name, INode parentNode)
         {
             Should.NotBeNull(name, nameof(name));
+            Should.NotBeNull(parentNode, nameof(parentNode));
             Should.BeSerializable(typeof(T), "T");
 
             this.Name = name;
+            this.ParentNode = parentNode;
             this.list = new List<T>();
         }
 
@@ -63,6 +68,9 @@ namespace Gridion.Core.Collections
 
         /// <inheritdoc />
         public string Name { get; }
+
+        /// <inheritdoc />
+        public INode ParentNode { get; }
 
         /// <inheritdoc />
         public T this[int index]

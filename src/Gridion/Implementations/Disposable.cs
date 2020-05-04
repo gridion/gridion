@@ -69,7 +69,7 @@ namespace Gridion.Core.Services
         /// <param name="disposing">
         ///     Indicates whether need to dispose managed resources.
         /// </param>
-        private void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (this.Disposed)
             {

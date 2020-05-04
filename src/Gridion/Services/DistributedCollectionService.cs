@@ -25,7 +25,6 @@ namespace Gridion.Core.Services
     using System.Collections.Concurrent;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
-    using System.Threading.Tasks;
 
     using Gridion.Core.Collections;
     using Gridion.Core.Interfaces.Internals;
@@ -66,29 +65,29 @@ namespace Gridion.Core.Services
             this.DisposeUnmanaged();
         }
 
-        /// <inheritdoc />
-        public Task<IDistributedDictionary<TKey, TValue>> CreateDictionaryAsync<TKey, TValue>(string name)
-        {
-            return Task.FromResult<IDistributedDictionary<TKey, TValue>>(new DistributedDictionary<TKey, TValue>(name));
-        }
-
-        /// <inheritdoc />
-        public Task<IDistributedList<T>> CreateListAsync<T>(string name)
-        {
-            return Task.FromResult<IDistributedList<T>>(new DistributedList<T>(name));
-        }
-
-        /// <inheritdoc />
-        public Task<IDistributedQueue<T>> CreateQueueAsync<T>(string name)
-        {
-            return Task.FromResult<IDistributedQueue<T>>(new DistributedQueue<T>(name));
-        }
-
-        /// <inheritdoc />
-        public Task<IDistributedSet<T>> CreateSetAsync<T>(string name)
-        {
-            return Task.FromResult<IDistributedSet<T>>(new DistributedSet<T>(name));
-        }
+        // /// <inheritdoc />
+        // public Task<IDistributedDictionary<TKey, TValue>> CreateDictionaryAsync<TKey, TValue>(string name)
+        // {
+        //     throw new NotImplementedException();
+        // }
+           
+        // /// <inheritdoc />
+        // public Task<IDistributedList<T>> CreateListAsync<T>(string name)
+        // {
+        //     throw new NotImplementedException();
+        // }
+           
+        // /// <inheritdoc />
+        // public Task<IDistributedQueue<T>> CreateQueueAsync<T>(string name)
+        // {
+        //     throw new NotImplementedException();
+        // }
+           
+        // /// <inheritdoc />
+        // public Task<IDistributedSet<T>> CreateSetAsync<T>(string name)
+        // {
+        //     throw new NotImplementedException();
+        // }
 
         /// <inheritdoc />
         public override void Start()

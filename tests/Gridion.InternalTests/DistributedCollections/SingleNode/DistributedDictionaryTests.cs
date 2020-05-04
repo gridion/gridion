@@ -24,6 +24,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
 
     using Gridion.Core;
     using Gridion.Core.Collections;
@@ -414,8 +415,16 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
 
                 Assert.AreEqual(2, array.Length, "The length is invalid.");
 
-                Assert.AreEqual(1, array[0].Value, "The values are invalid.");
-                Assert.AreEqual(2, array[1].Value, "The values are invalid.");
+                var values = new int[array.Length];
+                var index = 0;
+                foreach (KeyValuePair<string, int> pair in array)
+                {
+                    values[index] = pair.Value;
+                    index++;
+                }
+
+                Assert.IsTrue(values.Contains(1));
+                Assert.IsTrue(values.Contains(2));
             }
         }
 
