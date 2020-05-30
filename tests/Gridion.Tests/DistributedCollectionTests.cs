@@ -25,7 +25,6 @@ namespace Gridion.Tests
 
     using Gridion.Core;
     using Gridion.Core.Collections;
-    using Gridion.Core.Configurations;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -57,8 +56,8 @@ namespace Gridion.Tests
         [TestMethod]
         public void DistributedDictionaryTest2Nodes()
         {
-            var configuration = new GridionConfiguration("127.0.0.1", 24000);
-            var configuration2 = new GridionConfiguration("127.0.0.1", 24001);
+            var configuration = new NodeConfiguration("127.0.0.1", 24000);
+            var configuration2 = new NodeConfiguration("127.0.0.1", 24001);
             using (var gridion = GridionFactory.Start(configuration))
             {
                 using (var gridion2 = GridionFactory.Start(configuration2))
@@ -98,8 +97,8 @@ namespace Gridion.Tests
         [TestMethod]
         public void DistributedListTest2Nodes()
         {
-            var configuration = new GridionConfiguration("127.0.0.1", 24000);
-            var configuration2 = new GridionConfiguration("127.0.0.1", 24001);
+            var configuration = new NodeConfiguration("127.0.0.1", 24000);
+            var configuration2 = new NodeConfiguration("127.0.0.1", 24001);
             using (var gridion = GridionFactory.Start(configuration))
             {
                 using (var gridion2 = GridionFactory.Start(configuration2))
@@ -139,8 +138,8 @@ namespace Gridion.Tests
         [TestMethod]
         public void DistributedQueueTest2Nodes()
         {
-            var configuration = new GridionConfiguration("127.0.0.1", 24000);
-            var configuration2 = new GridionConfiguration("127.0.0.1", 24001);
+            var configuration = new NodeConfiguration("127.0.0.1", 24000);
+            var configuration2 = new NodeConfiguration("127.0.0.1", 24001);
             using (var gridion = GridionFactory.Start(configuration))
             {
                 using (var gridion2 = GridionFactory.Start(configuration2))
@@ -180,8 +179,8 @@ namespace Gridion.Tests
         [TestMethod]
         public void DistributedSetTest2Nodes()
         {
-            var configuration = new GridionConfiguration("127.0.0.1", 24000);
-            var configuration2 = new GridionConfiguration("127.0.0.1", 24001);
+            var configuration = new NodeConfiguration("127.0.0.1", 24000);
+            var configuration2 = new NodeConfiguration("127.0.0.1", 24001);
             using (var gridion = GridionFactory.Start(configuration))
             {
                 using (var gridion2 = GridionFactory.Start(configuration2))

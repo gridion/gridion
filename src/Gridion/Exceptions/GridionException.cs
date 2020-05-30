@@ -19,13 +19,13 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core
+namespace Gridion.Exceptions
 {
     using System;
     using System.Runtime.Serialization;
 
     /// <summary>
-    ///     Represents of any exception that <inheritdoc cref="IGridion" /> may cause.
+    ///     Represents of a common Gridion exception.
     /// </summary>
     /// <inheritdoc />
     [Serializable]

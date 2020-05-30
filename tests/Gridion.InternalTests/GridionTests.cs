@@ -21,8 +21,9 @@
 
 namespace Gridion.InternalTests
 {
+    using System;
+
     using Gridion.Core;
-    using Gridion.Core.Configurations;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -32,28 +33,35 @@ namespace Gridion.InternalTests
     [TestClass]
     public class GridionTests
     {
+        private int gridionStopAllCount;
+
         /// <summary>
         ///     Tests a stopping of all <see cref="IGridion" /> instances.
         /// </summary>
         [TestMethod]
         public void GridionStopAllTest()
         {
-            GridionFactory.ResetDisposedInstanceNumber();
-
-            var configuration1 = new GridionConfiguration("127.0.0.1", 24000);
-            var configuration2 = new GridionConfiguration("127.0.0.1", 24001);
-            using (GridionFactory.Start(configuration1))
+            var configuration1 = new NodeConfiguration("127.0.0.1", 24000);
+            var configuration2 = new NodeConfiguration("127.0.0.1", 24001);
+            using (var gridion1 = GridionFactory.Start(configuration1))
             {
-                using (GridionFactory.Start(configuration2))
+                using (var gridion2 = GridionFactory.Start(configuration2))
                 {
+                    ((IGridionInternal)gridion1).Disposed += this.DisposedHandler;
+                    ((IGridionInternal)gridion2).Disposed += this.DisposedHandler;
                     Assert.AreEqual(2, GridionFactory.GetAll().Count, "Invalid instance count.");
 
                     GridionFactory.StopAll();
 
                     Assert.AreEqual(0, GridionFactory.GetAll().Count, "Invalid instance count.");
-                    Assert.AreEqual(2, GridionFactory.GetDisposedInstanceNumber(), "Invalid instance count.");
+                    Assert.AreEqual(2, this.gridionStopAllCount, "Invalid instance count.");
                 }
             }
+        }
+
+        private void DisposedHandler(object sender, EventArgs e)
+        {
+            this.gridionStopAllCount++;
         }
     }
 }

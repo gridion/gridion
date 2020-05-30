@@ -21,12 +21,9 @@
 
 namespace Gridion.InternalTests
 {
-    using Gridion.Core.Interfaces.Internals;
-    using Gridion.Core.Services;
+    using Gridion.Services;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-    using NSubstitute;
 
     /// <summary>
     ///     Represents a set of tests for a testing of classes with <see cref="IGridionService" /> interface.
@@ -45,9 +42,7 @@ namespace Gridion.InternalTests
                 Assert.AreEqual("DistributedCollectionService", distributedCollectionService.Name);
             }
 
-            var clusterCurator = Substitute.For<IClusterCurator>();
-
-            using (IGridionService outMessengerService = new MemoryMessengerService(clusterCurator))
+            using (IGridionService outMessengerService = new MemoryMessengerService())
             {
                 Assert.AreEqual("MemoryMessengerService", outMessengerService.Name);
             }
@@ -61,8 +56,7 @@ namespace Gridion.InternalTests
         {
             using (IGridionService distributedCollectionService = new DistributedCollectionService())
             {
-                var clusterCurator = Substitute.For<IClusterCurator>();
-                using (IGridionService messengerService = new MemoryMessengerService(clusterCurator))
+                using (IGridionService messengerService = new MemoryMessengerService())
                 {
                     distributedCollectionService.Start();
                     messengerService.Start();

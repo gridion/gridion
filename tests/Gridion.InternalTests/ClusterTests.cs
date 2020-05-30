@@ -22,8 +22,6 @@
 namespace Gridion.InternalTests
 {
     using Gridion.Core;
-    using Gridion.Core.Configurations;
-    using Gridion.Core.Interfaces.Internals;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -41,7 +39,7 @@ namespace Gridion.InternalTests
         {
             using (var gridion = GridionFactory.Start())
             {
-                using (var gridion2 = GridionFactory.Start(new GridionConfiguration("Node2", "127.0.0.1", 24001)))
+                using (var gridion2 = GridionFactory.Start(new NodeConfiguration("Node2", "127.0.0.1", 24001)))
                 {
                     gridion.GetDictionary<string, string>("test1");
                     gridion2.GetDictionary<string, string>("test2");
@@ -57,8 +55,8 @@ namespace Gridion.InternalTests
         [TestMethod]
         public void DistributedObjectsNumberTest2()
         {
-            var configuration1 = new GridionConfiguration("node1", "127.0.0.1", 24000);
-            var configuration2 = new GridionConfiguration("node2", "127.0.0.1", 24001);
+            var configuration1 = new NodeConfiguration("node1", "127.0.0.1", 24000);
+            var configuration2 = new NodeConfiguration("node2", "127.0.0.1", 24001);
             using (var gridion1 = GridionFactory.Start(configuration1))
             {
                 using (var gridion2 = GridionFactory.Start(configuration2))
@@ -80,8 +78,9 @@ namespace Gridion.InternalTests
         [TestMethod]
         public void GroupNodesTest()
         {
-            var cfg1 = new GridionConfiguration("node1", GridionEndpoint.GetDefault().Host, GridionEndpoint.GetDefault().Port);
-            var cfg2 = new GridionConfiguration("node2", GridionEndpoint.GetDefault().Host, GridionEndpoint.GetDefault().Port + 1);
+            var endpoint = Endpoint.GetDefault();
+            var cfg1 = new NodeConfiguration("node1", endpoint.Host, endpoint.Port);
+            var cfg2 = new NodeConfiguration("node2", endpoint.Host, endpoint.Port + 1);
             using (var gridion = GridionFactory.Start(cfg1))
             {
                 Assert.AreEqual(1, gridion.Cluster.Nodes.Count);
@@ -109,7 +108,7 @@ namespace Gridion.InternalTests
                     Assert.IsTrue(node.IsMasterNode);
                 }
 
-                using (var gridion2 = GridionFactory.Start(new GridionConfiguration("Node2", "127.0.0.1", 24001)))
+                using (var gridion2 = GridionFactory.Start(new NodeConfiguration("Node2", "127.0.0.1", 24001)))
                 {
                     var number = 0;
                     foreach (var node1 in gridion2.Cluster.Nodes)

@@ -19,7 +19,7 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core.Services
+namespace Gridion.Services
 {
     using System;
     using System.Collections.Concurrent;
@@ -27,7 +27,6 @@ namespace Gridion.Core.Services
     using System.Threading;
 
     using Gridion.Core.Collections;
-    using Gridion.Core.Interfaces.Internals;
 
     /// <summary>
     ///     Represents a service that is working with distributed collections.
@@ -46,7 +45,7 @@ namespace Gridion.Core.Services
         ///     The blocking collection of distributed collections.
         /// </summary>
         [SuppressMessage("Usage", "CA2213:Disposable fields should be disposed", Justification = "The field will be disposed in the DisposeManaged method.")]
-        private readonly BlockingCollection<IDistributedCollection> queue = new BlockingCollection<IDistributedCollection>(
+        private readonly BlockingCollection<IDistributedCollection> items = new BlockingCollection<IDistributedCollection>(
             new ConcurrentQueue<IDistributedCollection>(),
             500);
 
@@ -54,15 +53,6 @@ namespace Gridion.Core.Services
         public DistributedCollectionService()
             : base("DistributedCollectionService")
         {
-        }
-
-        /// <summary>
-        ///     Finalizes an instance of the <see cref="Gridion.Core.Services.DistributedCollectionService" /> class.
-        /// </summary>
-        /// <inheritdoc cref="GridionService" />
-        ~DistributedCollectionService()
-        {
-            this.DisposeUnmanaged();
         }
 
         // /// <inheritdoc />
@@ -102,7 +92,7 @@ namespace Gridion.Core.Services
         {
             this.cancellationTokenSource.Cancel();
             WaitHandle.WaitAll(new[] { this.cancellationTokenSource.Token.WaitHandle });
-            this.queue.CompleteAdding();
+            this.items.CompleteAdding();
             base.Stop();
         }
 
@@ -113,7 +103,7 @@ namespace Gridion.Core.Services
         protected override void DisposeManaged()
         {
             base.DisposeManaged();
-            this.queue.Dispose();
+            this.items.Dispose();
             this.cancellationTokenSource.Dispose();
         }
 
@@ -127,7 +117,7 @@ namespace Gridion.Core.Services
         {
             try
             {
-                foreach (var unused in this.queue.GetConsumingEnumerable(token))
+                foreach (var unused in this.items.GetConsumingEnumerable(token))
                 {
                 }
             }

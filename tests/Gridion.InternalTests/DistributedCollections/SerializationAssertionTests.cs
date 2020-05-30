@@ -23,7 +23,6 @@ namespace Gridion.InternalTests.DistributedCollections
 {
     using System.Runtime.Serialization;
 
-    using Gridion.Core;
     using Gridion.Core.Collections;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -40,10 +39,9 @@ namespace Gridion.InternalTests.DistributedCollections
         [TestMethod]
         public void DistributedDictionarySerializationTest()
         {
-            var node = NSubstitute.Substitute.For<INode>();
-            Assert.ThrowsException<SerializationException>(() => new DistributedDictionary<SerializationAssertionTests, string>("dict", node));
-            Assert.ThrowsException<SerializationException>(() => new DistributedDictionary<string, SerializationAssertionTests>("dict", node));
-            Assert.ThrowsException<SerializationException>(() => new DistributedDictionary<SerializationAssertionTests, SerializationAssertionTests>("dict", node));
+            Assert.ThrowsException<SerializationException>(() => new DistributedDictionary<SerializationAssertionTests, string>("dict"));
+            Assert.ThrowsException<SerializationException>(() => new DistributedDictionary<string, SerializationAssertionTests>("dict"));
+            Assert.ThrowsException<SerializationException>(() => new DistributedDictionary<SerializationAssertionTests, SerializationAssertionTests>("dict"));
         }
 
         /// <summary>
@@ -52,8 +50,7 @@ namespace Gridion.InternalTests.DistributedCollections
         [TestMethod]
         public void DistributedListSerializationTest()
         {
-            var node = NSubstitute.Substitute.For<INode>();
-            Assert.ThrowsException<SerializationException>(() => new DistributedList<SerializationAssertionTests>(string.Empty, node));
+            Assert.ThrowsException<SerializationException>(() => new DistributedList<SerializationAssertionTests>(string.Empty));
         }
 
         /// <summary>
@@ -62,8 +59,7 @@ namespace Gridion.InternalTests.DistributedCollections
         [TestMethod]
         public void DistributedQueueSerializationTest()
         {
-            var node = NSubstitute.Substitute.For<INode>();
-            Assert.ThrowsException<SerializationException>(() => new DistributedQueue<SerializationAssertionTests>(string.Empty, node));
+            Assert.ThrowsException<SerializationException>(() => new DistributedQueue<SerializationAssertionTests>(string.Empty));
         }
 
         /// <summary>
@@ -72,8 +68,7 @@ namespace Gridion.InternalTests.DistributedCollections
         [TestMethod]
         public void DistributedSetSerializationTest()
         {
-            var node = NSubstitute.Substitute.For<INode>();
-            Assert.ThrowsException<SerializationException>(() => new DistributedSet<SerializationAssertionTests>(string.Empty, node));
+            Assert.ThrowsException<SerializationException>(() => new DistributedSet<SerializationAssertionTests>(string.Empty));
         }
     }
 }

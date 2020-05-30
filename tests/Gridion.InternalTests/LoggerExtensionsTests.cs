@@ -25,7 +25,7 @@ namespace Gridion.InternalTests
     using System.Diagnostics.CodeAnalysis;
 
     using Gridion.Core.Extensions;
-    using Gridion.Core.Logging;
+    using Gridion.Internal.Logging;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -37,24 +37,6 @@ namespace Gridion.InternalTests
     [TestClass]
     public class LoggerExtensionsTests
     {
-        /// <summary>
-        ///     Tests a <see cref="LoggerExtensions" /> Error method.
-        /// </summary>
-        [TestMethod]
-        [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute", Justification = "Reviewed. Suppression is OK here.")]
-        public void LoggerExtensionsErrorTest()
-        {
-            var logger = Substitute.For<ILogger>();
-            Assert.ThrowsException<ArgumentNullException>(() => LoggerExtensions.Error(null, null));
-            Assert.ThrowsException<ArgumentNullException>(() => LoggerExtensions.Error(logger, null));
-            LoggerExtensions.Error(logger, string.Empty);
-            logger.Received().Log(LogLevel.Error, string.Empty, null, null, null);
-#pragma warning disable CA1303 // Do not pass literals as localized parameters
-            LoggerExtensions.Error(logger, "message");
-            logger.Received().Log(LogLevel.Error, "message", null, null, null);
-#pragma warning restore CA1303 // Do not pass literals as localized parameters
-        }
-
         /// <summary>
         ///     Tests a <see cref="LoggerExtensions" /> Info method.
         /// </summary>

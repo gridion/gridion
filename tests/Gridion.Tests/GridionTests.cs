@@ -26,7 +26,7 @@ namespace Gridion.Tests
     using System.Diagnostics.CodeAnalysis;
 
     using Gridion.Core;
-    using Gridion.Core.Configurations;
+    using Gridion.Exceptions;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -57,7 +57,7 @@ namespace Gridion.Tests
 
             try
             {
-                using (GridionFactory.Start(new GridionConfiguration("node")))
+                using (GridionFactory.Start(new NodeConfiguration("node")))
                 {
                 }
             }
@@ -73,7 +73,7 @@ namespace Gridion.Tests
         [TestMethod]
         public void GridionInterfaceNameTest()
         {
-            using (var gridion = GridionFactory.Start(new GridionConfiguration("New Node")))
+            using (var gridion = GridionFactory.Start(new NodeConfiguration("New Node")))
             {
                 Assert.AreEqual("New Node", gridion.Name, "The node name is invalid.");
             }
@@ -140,7 +140,7 @@ namespace Gridion.Tests
         [TestMethod]
         public void MultipleDefaultGridionStartWithConfigThrowsTest()
         {
-            var configuration = new GridionConfiguration("127.0.0.1", 24000);
+            var configuration = new NodeConfiguration("127.0.0.1", 24000);
             GridionFactory.Start(configuration);
 
             Assert.ThrowsException<GridionException>(() => { GridionFactory.Start(configuration); }, "The expected exception hasn't been thrown.");
@@ -152,9 +152,9 @@ namespace Gridion.Tests
         [TestMethod]
         public void MultipleGridionStartTest()
         {
-            var configuration1 = new GridionConfiguration("127.0.0.1", 24000);
+            var configuration1 = new NodeConfiguration("127.0.0.1", 24000);
             var gridion1 = GridionFactory.Start(configuration1);
-            var configuration2 = new GridionConfiguration("127.0.0.1", 24001);
+            var configuration2 = new NodeConfiguration("127.0.0.1", 24001);
             var gridion2 = GridionFactory.Start(configuration2);
 
             Assert.IsTrue(gridion1.Name.StartsWith("[Gridion] Node - {", StringComparison.InvariantCulture), "Gridion name is incorrect.");

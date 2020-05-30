@@ -359,3 +359,6 @@ _dotCover*
 
 # CI specific folders and files
 coverage*
+
+# NDepend
+NDependOut*

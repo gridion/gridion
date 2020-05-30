@@ -22,14 +22,11 @@
 namespace Gridion.InternalTests
 {
     using Gridion.Core;
-    using Gridion.Core.Configurations;
-    using Gridion.Core.Implementations;
-    using Gridion.Core.Interfaces.Internals;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    ///     Represents a set of tests to check a <see cref="GridionInternal" /> class.
+    ///     Represents a set of tests to check a <see cref="IGridionInternal" /> functionality.
     /// </summary>
     [TestClass]
     public class GridionInternalTests
@@ -40,22 +37,21 @@ namespace Gridion.InternalTests
         [TestMethod]
         public void GridionStopTest()
         {
-            GridionInternal gridionInternal = null;
+            IGridionInternal gridionInternal = null;
             try
             {
-                var configuration = new GridionConfiguration("127.0.0.1", 24000);
+                var configuration = new NodeConfiguration("127.0.0.1", 24000);
 
-                var clusterCurator = NSubstitute.Substitute.For<IClusterCurator>();
+                using (gridionInternal = (IGridionInternal)GridionFactory.Start(configuration))
+                {
+                    gridionInternal.NodeStart();
 
-                gridionInternal = new GridionInternal(configuration, clusterCurator);
-
-                gridionInternal.Start();
-
-                Assert.IsTrue(gridionInternal.IsRunning, "Invalid gridion node state.");
+                    Assert.IsTrue(gridionInternal.IsRunning, "Invalid gridion node state.");
             
-                gridionInternal.Stop();
+                    gridionInternal.NodeStop();
 
-                Assert.IsFalse(gridionInternal.IsRunning, "Invalid gridion node state.");
+                    Assert.IsFalse(gridionInternal.IsRunning, "Invalid gridion node state.");
+                }
             }
             finally
             {

@@ -28,7 +28,6 @@ namespace Gridion.InternalTests
     using System.Reflection;
     using System.Text;
 
-    using Gridion.Core.Client.Utils;
     using Gridion.Core.Collections;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -101,9 +100,6 @@ namespace Gridion.InternalTests
         [SuppressMessage("ReSharper", "UseIndexFromEndExpression", Justification = "Reviewed.")]
         private static string Generate(Type type, string memberName, Func<char, string, string> defaultBodyBuilder, char id)
         {
-            Should.NotBeNull(type, nameof(type));
-            Should.NotBeNullOrEmpty(memberName, nameof(memberName));
-
             var tab = new string(' ', 4);
             var builder = new StringBuilder();
             var typeName = type.Name;

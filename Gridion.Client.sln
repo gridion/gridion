@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29521.150
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gridion.Client", "src\Gridion.Client\Gridion.Client.csproj", "{F85780CA-4697-4E7D-8F8E-7FE409A7304B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gridion.Client.Tests", "tests\Gridion.Client.Tests\Gridion.Client.Tests.csproj", "{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{26A78F22-5AFA-4948-83F1-2A282CD655E9}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B}.Debug|x64.ActiveCfg = Debug|x64
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B}.Debug|x64.Build.0 = Debug|x64
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B}.Release|x64.ActiveCfg = Release|x64
+		{F85780CA-4697-4E7D-8F8E-7FE409A7304B}.Release|x64.Build.0 = Release|x64
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}.Debug|x64.ActiveCfg = Debug|x64
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}.Debug|x64.Build.0 = Debug|x64
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}.Release|x64.ActiveCfg = Release|x64
+		{DC2904D2-2AD4-40B4-96D4-F40EB5E49174}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {764E7833-9166-4A13-AE7D-7FC2EDE5599A}
+	EndGlobalSection
+EndGlobal
