@@ -32,7 +32,7 @@ namespace Gridion.InternalTests.DistributedCollections.MultiNode
     /// </summary>
     [TestClass]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed.")]
-    public class DistributedSetTests
+    public class DistributedSetTests : MultiNodeCollectionTestBase
     {
     }
 }

@@ -47,6 +47,7 @@ namespace Gridion.Core.Collections
         internal DistributedSet(string name)
         {
             Should.NotBeNull(name, nameof(name));
+            Should.BeSerializable(typeof(T), "T");
 
             this.Name = name;
             this.items = new HashSet<T>();

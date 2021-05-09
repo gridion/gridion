@@ -49,17 +49,28 @@ namespace Gridion.Core
         }
 
         /// <inheritdoc />
-        public long NumberOfDistributedCollections
+        public long DistributedCollectionNumber
         {
             get
             {
-                long i = 0;
+                INodeInternal master = null;
                 foreach (var nodeInternal in this.GetNodes())
                 {
-                    i += nodeInternal.DistributedObjectsNumber;
+                    if (!nodeInternal.IsMasterNode)
+                    {
+                        continue;
+                    }
+
+                    master = nodeInternal;
+                    break;
                 }
 
-                return i;
+                if (master == null)
+                {
+                    throw new NullReferenceException("Master node is not found.");
+                }
+
+                return master.DistributedObjectsNumber;
             }
         }
 

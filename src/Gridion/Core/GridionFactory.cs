@@ -764,26 +764,16 @@ PN Counter
                 }
 
                 /// <inheritdoc />
-                string IRecipient.Name
-                {
-                    get => ((INode)this).Name;
-                }
-
-                /// <inheritdoc />
                 public long DistributedObjectsNumber
                 {
                     get
                     {
                         long res = 0;
 
-                        // foreach (KeyValuePair<string, object> pair in this.dictionaryMap)
-                        // {
-                        // var collection = (IDistributedCollection)pair.Value;
-                        // // if (collection.ParentNode.Equals(this))
-                        // // {
-                        // // res++;
-                        // // }
-                        // }
+                        foreach (KeyValuePair<string, object> _ in this.dictionaryMap)
+                        {
+                            res++;
+                        }
 
                         // res += this.listMap.Count;
                         // res += this.queueMap.Count;
@@ -807,6 +797,13 @@ PN Counter
                 public void Accept(IMessage message)
                 {
                     Should.NotBeNull(message, nameof(message));
+                    Should.NotBeNull(message.Sender, nameof(message.Sender));
+
+                    ISender recipient = this;
+                    if (!recipient.Name.Equals(message.Sender.Name))
+                    {
+                        return;
+                    }
 
                     if (!(message is CollectionCreatedMessageBase actionMessage))
                     {

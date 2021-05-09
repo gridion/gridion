@@ -31,7 +31,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
     /// <summary>
     ///     Represents a set of test methods for <see cref="IDistributedQueue{T}" /> interface.
     /// </summary>
-    [TestClass]
+    [TestClass, Ignore]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed.")]
     public class AbstractDistributedQueueTests
     {

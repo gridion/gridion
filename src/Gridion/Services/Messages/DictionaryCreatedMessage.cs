@@ -22,6 +22,7 @@
 namespace Gridion.Services.Messages
 {
     using System;
+    using System.Reflection;
 
     using Gridion.Core.Collections;
 
@@ -62,7 +63,9 @@ namespace Gridion.Services.Messages
             var type = typeof(DistributedDictionary<,>);
             Type[] arguments = { this.keyType, this.valType };
             var constructed = type.MakeGenericType(arguments);
-            var instance = Activator.CreateInstance(constructed, this.Name, this.Sender);
+            BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance;
+            var instance =   
+                Activator.CreateInstance(constructed, flags, null, new object[] { this.Name }, null);
             return (IDistributedCollection)instance;
         }
     }

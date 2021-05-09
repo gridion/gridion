@@ -42,10 +42,7 @@ namespace Gridion.Services
         {
             foreach (var node in recipients)
             {
-                if (!node.Name.Equals(message.Sender.Name))
-                {
-                    node.Accept(message);
-                }
+                node.Accept(message);
             }
         }
     }

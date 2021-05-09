@@ -1,4 +1,4 @@
-﻿// <copyright file="IClusterCurator.cs" company="Gridion">
+﻿// <copyright file="MultiNodeCollectionTestBase.cs" company="Gridion">
 //     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -19,36 +19,30 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.Core
+namespace Gridion.InternalTests.DistributedCollections.MultiNode
 {
-    using System.Collections.Generic;
+    using Gridion.Core;
+    using Gridion.Core.Collections;
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    ///     Represents an interface of a cluster manager. The manager is a global object that controls the node communications.
+    ///     Represents a set of test methods for <see cref="IDistributedQueue{T}" /> interface.
     /// </summary>
-    internal interface IClusterCurator
+    [TestClass]
+    public abstract class MultiNodeCollectionTestBase
     {
-        /// <summary>
-        ///     Gets the number of distributed objects.
-        /// </summary>
-        long DistributedCollectionNumber { get; }
+        private int port = 24000;
 
-        /// <summary>
-        ///     Returns a list of nodes in the cluster.
-        /// </summary>
-        /// <returns>an enumeration of nodes.</returns>
-        IEnumerable<INodeInternal> GetNodes();
+        protected NodeConfiguration CreateNextNodeConfiguration()
+        {
+            var nextPort = this.GetNextPort();
+            return new NodeConfiguration("testNode " + nextPort, "127.0.0.1", nextPort);
+        }
 
-        /// <summary>
-        ///     Join the node into the cluster.
-        /// </summary>
-        /// <param name="node">The node to add.</param>
-        void Join(INodeInternal node);
-
-        /// <summary>
-        ///     Remove the node from the list of active nodes.
-        /// </summary>
-        /// <param name="node">The node to remove.</param>
-        void Remove(INodeInternal node);
+        private int GetNextPort()
+        {
+            return ++this.port;
+        }
     }
 }

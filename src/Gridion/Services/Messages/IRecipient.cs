@@ -27,11 +27,6 @@ namespace Gridion.Services.Messages
     internal interface IRecipient
     {
         /// <summary>
-        /// Gets a name of the recipient.
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
         ///     Receives the message.
         /// </summary>
         /// <param name="message">

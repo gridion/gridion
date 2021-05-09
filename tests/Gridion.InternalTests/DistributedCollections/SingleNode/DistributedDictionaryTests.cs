@@ -503,6 +503,27 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
         }
 
         /// <summary>
+        ///     Tests a case when a dictionary has been created with one type and then trying to get it with another (with the same name)
+        ///     on the same node.
+        /// </summary>
+        [TestMethod]
+        public void TryGetDictionaryWithIncorrectArgs()
+        {
+            Assert.ThrowsException<InvalidCastException>(
+                () =>
+                { 
+                    using (var gridion = GridionFactory.Start())
+                    {
+                        // create a dict with name 'test1'
+                        gridion.GetDictionary<int, string>("test1");
+
+                        // try to get the dict by name but with different agrs (int, string)
+                        gridion.GetDictionary<string, string>("test1");
+                    }
+                });
+        }
+
+        /// <summary>
         ///     Represents a dictionaary test object.
         /// </summary>
         /// <inheritdoc />

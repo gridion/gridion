@@ -43,8 +43,8 @@ namespace Gridion.InternalTests
                 {
                     gridion.GetDictionary<string, string>("test1");
                     gridion2.GetDictionary<string, string>("test2");
-                 
-                    Assert.AreEqual(2, ClusterCurator.Instance.NumberOfDistributedCollections);
+
+                    Assert.AreEqual(2, ClusterCurator.Instance.DistributedCollectionNumber);
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace Gridion.InternalTests
                     // get a dict
                     gridion2.GetDictionary<string, int>("testDictionary1");
 
-                    Assert.AreEqual(1, ClusterCurator.Instance.NumberOfDistributedCollections);
+                    Assert.AreEqual(1, ClusterCurator.Instance.DistributedCollectionNumber);
                 }
             }
         }
