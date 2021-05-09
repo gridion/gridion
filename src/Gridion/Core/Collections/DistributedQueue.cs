@@ -1,5 +1,5 @@
 ﻿// <copyright file="DistributedQueue.cs" company="Gridion">
-//     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
+//     Copyright (c) 2019-2021, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
 // Licensed to the Apache Software Foundation (ASF) under one or more

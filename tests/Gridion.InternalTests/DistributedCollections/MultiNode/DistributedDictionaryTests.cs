@@ -1,5 +1,5 @@
 ﻿// <copyright file="DistributedDictionaryTests.cs" company="Gridion">
-//     Copyright (c) 2019-2020, Alex Efremov (https://github.com/alexander-efremov)
+//     Copyright (c) 2019-2021, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
 // Licensed to the Apache Software Foundation (ASF) under one or more
@@ -48,17 +48,17 @@ namespace Gridion.InternalTests.DistributedCollections.MultiNode
             {
                 using (var gridion2 = GridionFactory.Start(new NodeConfiguration("Node2", "127.0.0.1", 24001)))
                 {
-                    IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                    var addedValue = dictionary.AddOrUpdate("key", _ => 1, (_, _) => 1);
+                    IDistributedDictionary<string, int> expected = gridion.GetDictionary<string, int>("testDictionary");
+                    var addedValue = expected.AddOrUpdate("key", _ => 1, (_, _) => 1);
 
-                    IDistributedDictionary<string, int> dictionary2 = gridion2.GetDictionary<string, int>("testDictionary");
+                    IDistributedDictionary<string, int> actual = gridion2.GetDictionary<string, int>("testDictionary");
 
-                    Assert.AreEqual(dictionary.Count, dictionary2.Count, "The collection lengths are different.");
-                    foreach (KeyValuePair<string, int> pair in dictionary)
+                    Assert.AreEqual(expected.Count, actual.Count, "The collection lengths are different.");
+                    foreach (KeyValuePair<string, int> pair in expected)
                     {
-                        Assert.IsTrue(dictionary2.TryGetValue(pair.Key, out var val), "dictionary2.TryGetValue(pair.Key, out var val) failed.");
+                        Assert.IsTrue(actual.TryGetValue(pair.Key, out var val), "dictionary2.TryGetValue(pair.Key, out var val) failed.");
                         Assert.AreEqual(addedValue, val, "The values are different.");
-                        Assert.IsTrue(dictionary[pair.Key] == val, "dictionary[pair.Key] is not equal to val.");
+                        Assert.IsTrue(expected[pair.Key] == val, "dictionary[pair.Key] is not equal to val.");
                     }
                 }
             }
