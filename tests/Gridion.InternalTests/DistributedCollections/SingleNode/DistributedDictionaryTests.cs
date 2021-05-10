@@ -49,7 +49,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                var addedValue = dictionary.AddOrUpdate("key", s => 1, (s, i) => 1);
+                var addedValue = dictionary.AddOrUpdate("key", _ => 1, (_, _) => 1);
 
                 IDistributedDictionary<string, int> dictionary2 = gridion.GetDictionary<string, int>("testDictionary");
 
@@ -74,7 +74,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                var addedValue = dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                var addedValue = dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 IDistributedDictionary<string, int> dictionary2 = gridion.GetDictionary<string, int>("testDictionary");
 
@@ -99,7 +99,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                var addedValue = dictionary.AddOrUpdate("key", (s, d) => 1, (s, i, a) => 1, 0d);
+                var addedValue = dictionary.AddOrUpdate("key", (_, _) => 1, (_, _, _) => 1, 0d);
 
                 IDistributedDictionary<string, int> dictionary2 = gridion.GetDictionary<string, int>("testDictionary");
 
@@ -124,7 +124,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 Assert.AreEqual(1, dictionary.Count, "dictionary.Count is invalid.");
 
@@ -145,7 +145,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 Assert.IsTrue(dictionary.ContainsKey("key"), "dictionary.ContainsKey('key') failed.");
             }
@@ -162,7 +162,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 Assert.AreEqual(1, dictionary.Count, "The collection count is incorrect.");
             }
@@ -180,7 +180,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, val) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 var i = 0;
                 foreach (KeyValuePair<string, int> unused in dictionary)
@@ -203,7 +203,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 Assert.IsFalse(dictionary.IsEmpty, "dictionary.IsEmpty is incorrect.");
 
@@ -224,7 +224,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 Assert.AreEqual(1, dictionary["key"]);
             }
@@ -241,7 +241,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 var val = dictionary["key"];
 
@@ -265,7 +265,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 Assert.AreEqual("testDictionary", dictionary.Name, "The collection name is invalid.");
             }
@@ -283,7 +283,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             {
                 IDistributedDictionary<string, DictionaryTestObject> dictionary = gridion.GetDictionary<string, DictionaryTestObject>("testDictionary");
                 var expected = new DictionaryTestObject(1);
-                var actual = dictionary.GetOrAdd("key", s => expected);
+                var actual = dictionary.GetOrAdd("key", _ => expected);
 
                 Assert.IsNotNull(actual, "actual != null.");
                 Assert.AreEqual(expected.Value, actual.Value, "The objects are different.");
@@ -333,7 +333,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             {
                 IDistributedDictionary<string, DictionaryTestObject> dictionary = gridion.GetDictionary<string, DictionaryTestObject>("testDictionary");
                 var expected = new DictionaryTestObject(1);
-                var actual = dictionary.GetOrAdd("key", (d, val) => expected, 0d);
+                var actual = dictionary.GetOrAdd("key", (_, _) => expected, 0d);
 
                 Assert.IsNotNull(actual, "actual != null.");
                 Assert.AreEqual(expected, actual, "The objects are different.");
@@ -357,7 +357,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, val) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 var i = 0;
                 foreach (var unused in dictionary.Values)
@@ -380,7 +380,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("keyItem", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("keyItem", 1, (_, _) => 1);
 
                 dictionary["keyItem"] = 2;
 
@@ -399,17 +399,17 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 KeyValuePair<string, int>[] array = dictionary.ToArray();
 
                 Assert.AreEqual(1, array.Length, "The length is invalid.");
 
-                dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 Assert.AreEqual(1, array.Length, "The length is invalid.");
 
-                dictionary.AddOrUpdate("key2", 2, (s, i) => 2);
+                dictionary.AddOrUpdate("key2", 2, (_, _) => 2);
 
                 array = dictionary.ToArray();
 
@@ -459,7 +459,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 Assert.IsTrue(dictionary.TryGetValue("key", out var value), "dictionary.TryGetValue('key', out int value) is incorrect.");
                 Assert.AreEqual(1, value, "The value is incorrect.");
@@ -477,7 +477,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 Assert.IsTrue(dictionary.TryRemove("key", out var value), "dictionary.TryRemove('key', out int value) is invalid.");
                 Assert.AreEqual(1, value, "The values are different.");
@@ -496,7 +496,7 @@ namespace Gridion.InternalTests.DistributedCollections.SingleNode
             using (var gridion = GridionFactory.Start())
             {
                 IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>("testDictionary");
-                dictionary.AddOrUpdate("key", 1, (s, i) => 1);
+                dictionary.AddOrUpdate("key", 1, (_, _) => 1);
 
                 Assert.IsTrue(dictionary.TryUpdate("key", 2, 1), "dictionary.TryUpdate('key', 2, 1) is invalid.");
             }

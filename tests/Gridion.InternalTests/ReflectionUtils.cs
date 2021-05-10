@@ -39,7 +39,7 @@ namespace Gridion.InternalTests
         /// <returns>a method signature as a string.</returns>
         internal static string BuildMethodSignature(MethodInfo mi)
         {
-            string[] param = mi.GetParameters().Select(
+            var param = mi.GetParameters().Select(
                     p => string.Format(
                         CultureInfo.InvariantCulture,
                         "{0} {1}",

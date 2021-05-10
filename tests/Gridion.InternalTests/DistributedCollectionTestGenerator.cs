@@ -225,7 +225,7 @@ namespace Gridion.InternalTests
             {
                 case 'd':
                     sb.AppendLine(tab + @"IDistributedDictionary<string, int> dictionary = gridion.GetDictionary<string, int>(""testDictionary"");");
-                    sb.AppendLine(tab + @"dictionary.AddOrUpdate(""key"", 1, (s, i) => 1);");
+                    sb.AppendLine(tab + @"dictionary.AddOrUpdate(""key"", 1, (_, _) => 1);");
                     break;
                 case 'l':
                     sb.AppendLine(tab + @"IDistributedList<string> list = unused.GetList<string>(""testList"");");

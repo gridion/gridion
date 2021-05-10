@@ -30,20 +30,14 @@ namespace Gridion.Services.Messages
     internal abstract class CollectionCreatedMessageBase : MessageBase
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="CollectionCreatedMessageBase" /> class.
+        ///     Initializes a new instance of the <see cref="T:Gridion.Services.Messages.CollectionCreatedMessageBase" /> class.
         /// </summary>
         /// <param name="sender">The message sender.</param>
-        /// <param name="name">The name of created collection.</param>
-        protected CollectionCreatedMessageBase(ISender sender, string name) 
+        /// <inheritdoc />
+        protected CollectionCreatedMessageBase(ISender sender) 
             : base(sender)
         {
-            this.Name = name;
         }
-
-        /// <summary>
-        /// Gets a name of the collection.
-        /// </summary>
-        internal string Name { get; }
 
         /// <summary>Creates a collection.</summary>
         /// <returns>the created collection.</returns>

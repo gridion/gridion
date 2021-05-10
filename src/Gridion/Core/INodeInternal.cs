@@ -52,5 +52,7 @@ namespace Gridion.Core
         ///     Stops the node.
         /// </summary>
         void Stop();
+
+        void AddCollection(object collection);
     }
 }

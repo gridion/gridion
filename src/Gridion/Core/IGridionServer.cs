@@ -40,12 +40,7 @@ namespace Gridion.Core
         ///     Gets a value of <see cref="GridionServerFactory.GridionGridionServer" /> ID.
         /// </summary>
         GridionServerId Id { get; }
-
-        /// <summary>
-        ///     Gets a value indicating whether the server is listening of incoming connections or not.
-        /// </summary>
-        bool IsListening { get; }
-
+        
         /// <summary>
         ///     Start to listen <see cref="IGridionServer" /> in async manner.
         /// </summary>

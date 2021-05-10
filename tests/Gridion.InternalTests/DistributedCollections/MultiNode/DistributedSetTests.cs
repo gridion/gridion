@@ -23,13 +23,12 @@ namespace Gridion.InternalTests.DistributedCollections.MultiNode
 {
     using System.Diagnostics.CodeAnalysis;
 
-    using Gridion.Core.Collections;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    ///     Represents a set of test methods for <see cref="IDistributedSet{T}" /> interface.
+    ///     Represents a set of test methods for <see cref="T:Gridion.Core.Collections.IDistributedSet`1" /> interface.
     /// </summary>
+    /// <inheritdoc />
     [TestClass]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed.")]
     public class DistributedSetTests : MultiNodeCollectionTestBase

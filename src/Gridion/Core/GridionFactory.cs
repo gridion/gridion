@@ -517,17 +517,13 @@ PN Counter
                 return this.node?.GetHashCode() ?? 0;
             }
 
-            /// <summary>
-            ///     Starts the local node.
-            /// </summary>
+            /// <inheritdoc />
             public void NodeStart()
             {
                 this.node.Start();
             }
 
-            /// <summary>
-            ///     Stops the local node.
-            /// </summary>
+            /// <inheritdoc />
             public void NodeStop()
             {
                 this.node.Stop();
@@ -796,22 +792,14 @@ PN Counter
                 /// <inheritdoc />
                 public void Accept(IMessage message)
                 {
+                }
+
+                /// <inheritdoc />
+                public void Accept(IActionMessage message)
+                {
                     Should.NotBeNull(message, nameof(message));
                     Should.NotBeNull(message.Sender, nameof(message.Sender));
-
-                    ISender recipient = this;
-                    if (!recipient.Name.Equals(message.Sender.Name))
-                    {
-                        return;
-                    }
-
-                    if (!(message is CollectionCreatedMessageBase actionMessage))
-                    {
-                        return;
-                    }
-
-                    var distributedCollection = actionMessage.Create();
-                    this.dictionaryMap.TryAdd(actionMessage.Name, distributedCollection);
+                    message.Do(this);
                 }
 
                 /// <inheritdoc />
@@ -854,13 +842,9 @@ PN Counter
                         }
 
                         var dictionary = new DistributedDictionary<TKey, TValue>(name);
-
                         var message = new DictionaryCreatedMessage(this, name, typeof(TKey), typeof(TValue));
-
                         this.outMessengerService.Send(this.curator.GetNodes(), message);
-
                         this.dictionaryMap.TryAdd(name, dictionary);
-
                         return dictionary;
                     }
                 }
@@ -897,15 +881,18 @@ PN Counter
                         }
 
                         this.cts.Cancel();
-
                         WaitHandle.WaitAny(new[] { this.cts.Token.WaitHandle });
-
                         this.gridionServer.Stop();
-
                         this.IsRunning = false;
                     }
 
                     this.logger.Info($"The node on {this.gridionServer.Configuration} has been stopped.");
+                }
+
+                /// <inheritdoc />
+                public void AddCollection(object collection)
+                {
+                    this.AddCollection(this, collection);
                 }
 
                 /// <inheritdoc />
@@ -926,13 +913,16 @@ PN Counter
                     {
                         this.inMessengerService.Start();
                         this.outMessengerService.Start();
-
                         ClusterCurator.Instance.Join(this);
-
                         this.IsRunning = true;
                     }
 
                     this.logger.Info($"The node has been started on {this.gridionServer.Configuration}.");
+                }
+
+                private void AddCollection(ISender sender, object collection)
+                {
+                    this.dictionaryMap.TryAdd(sender.Name, collection);
                 }
 
                 /// <summary>

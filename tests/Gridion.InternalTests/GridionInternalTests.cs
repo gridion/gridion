@@ -41,15 +41,11 @@ namespace Gridion.InternalTests
             try
             {
                 var configuration = new NodeConfiguration("127.0.0.1", 24000);
-
                 using (gridionInternal = (IGridionInternal)GridionFactory.Start(configuration))
                 {
                     gridionInternal.NodeStart();
-
                     Assert.IsTrue(gridionInternal.IsRunning, "Invalid gridion node state.");
-            
                     gridionInternal.NodeStop();
-
                     Assert.IsFalse(gridionInternal.IsRunning, "Invalid gridion node state.");
                 }
             }

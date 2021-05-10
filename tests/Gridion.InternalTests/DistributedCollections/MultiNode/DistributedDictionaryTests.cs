@@ -30,8 +30,9 @@ namespace Gridion.InternalTests.DistributedCollections.MultiNode
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    ///     Represents a set of test methods for <see cref="IDistributedDictionary{TKey,TValue}" /> interface.
+    ///     Represents a set of test methods for <see cref="T:Gridion.Core.Collections.IDistributedDictionary`2" /> interface.
     /// </summary>
+    /// <inheritdoc />
     [TestClass]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed.")]
     public class DistributedDictionaryTests : MultiNodeCollectionTestBase

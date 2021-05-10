@@ -50,7 +50,7 @@ namespace Gridion.Core
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="NodeConfiguration" /> class.
+        ///     Initializes a new instance of the <see cref="T:Gridion.Core.NodeConfiguration" /> class.
         /// </summary>
         /// <param name="host">
         ///     The IP address.

@@ -24,14 +24,20 @@ namespace Gridion.Services.Messages
     using System;
     using System.Reflection;
 
+    using Gridion.Core;
     using Gridion.Core.Collections;
 
     /// <summary>
     /// Represents a message that indicating that dictionary was created on the sender.
     /// </summary>
     /// <inheritdoc cref="CollectionCreatedMessageBase"/>
-    internal sealed class DictionaryCreatedMessage : CollectionCreatedMessageBase
+    internal sealed class DictionaryCreatedMessage : ActionMessageBase
     {
+        /// <summary>
+        /// The name of the dictionary to create.
+        /// </summary>
+        private readonly string name;
+
         /// <summary>
         /// The type of key in a dictionary.
         /// </summary>
@@ -51,22 +57,22 @@ namespace Gridion.Services.Messages
         /// <param name="valType">The type of value in a dictionary.</param>
         /// <inheritdoc cref="CollectionCreatedMessageBase"/>
         internal DictionaryCreatedMessage(ISender sender, string name, Type keyType, Type valType) 
-            : base(sender, name)
+            : base(sender)
         {
+            this.name = name;
             this.keyType = keyType;
             this.valType = valType;
         }
 
         /// <inheritdoc />
-        internal override IDistributedCollection Create()
+        public override void Do(INodeInternal node)
         {
             var type = typeof(DistributedDictionary<,>);
             Type[] arguments = { this.keyType, this.valType };
             var constructed = type.MakeGenericType(arguments);
-            BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance;
             var instance =   
-                Activator.CreateInstance(constructed, flags, null, new object[] { this.Name }, null);
-            return (IDistributedCollection)instance;
+                Activator.CreateInstance(constructed, BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { this.name }, null);
+            node.AddCollection(instance);
         }
     }
 }

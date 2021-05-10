@@ -32,14 +32,27 @@ namespace Gridion.InternalTests.DistributedCollections.MultiNode
     [TestClass]
     public abstract class MultiNodeCollectionTestBase
     {
+        /// <summary>
+        /// The default port.
+        /// </summary>
         private int port = 24000;
 
+        /// <summary>
+        /// Creates the node configuration for the next port.
+        /// </summary>
+        /// <returns>
+        /// created node configuration.
+        /// </returns>
         protected NodeConfiguration CreateNextNodeConfiguration()
         {
             var nextPort = this.GetNextPort();
             return new NodeConfiguration("testNode " + nextPort, "127.0.0.1", nextPort);
         }
 
+        /// <summary>
+        /// Gets the next port.
+        /// </summary>
+        /// <returns>the next port.</returns>
         private int GetNextPort()
         {
             return ++this.port;

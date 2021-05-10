@@ -33,5 +33,13 @@ namespace Gridion.Services.Messages
         ///     The message to receive.
         /// </param>
         void Accept(IMessage message);
+
+        /// <summary>
+        ///     Receives the message.
+        /// </summary>
+        /// <param name="message">
+        ///     The message to receive.
+        /// </param>
+        void Accept(IActionMessage message);
     }
 }

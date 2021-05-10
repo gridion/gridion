@@ -21,11 +21,13 @@
 
 namespace Gridion.Services.Messages
 {
+    using Gridion.Core;
+
     /// <summary>
     ///     Represents an abstract node message.
     /// </summary>
     /// <inheritdoc cref="IMessage" />
-    internal abstract class MessageBase : IMessage
+    internal abstract class MessageBase : IActionMessage
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="MessageBase" /> class.
@@ -38,5 +40,8 @@ namespace Gridion.Services.Messages
 
         /// <inheritdoc />
         public ISender Sender { get; }
+
+        /// <inheritdoc />
+        public abstract void Do(INodeInternal node);
     }
 }

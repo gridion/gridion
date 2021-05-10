@@ -29,6 +29,9 @@ namespace Gridion.Core
     /// <inheritdoc />
     public interface INode : IDisposable
     {
+        /// <summary>
+        ///     Gets the name of the node.
+        /// </summary>
         string Name { get; }
     }
 }

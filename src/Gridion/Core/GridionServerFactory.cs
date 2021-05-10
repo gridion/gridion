@@ -150,9 +150,6 @@ namespace Gridion.Core
             public ServerConfiguration Configuration { get; }
 
             /// <inheritdoc />
-            public bool IsListening { get; private set; }
-
-            /// <inheritdoc />
             GridionServerId IGridionServer.Id => this.id;
 
             /// <summary>
@@ -185,7 +182,6 @@ namespace Gridion.Core
                 {
                     this.listener.Start();
                     this.logger.Info($"Started to listening on {this.Configuration.Address}.");
-                    this.IsListening = true;
                     while (true)
                     {
                         Task<TcpClient> task = this.listener.AcceptTcpClientAsync();
@@ -200,7 +196,6 @@ namespace Gridion.Core
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (OperationCanceledException)
                 {
-                    this.IsListening = false;
                     this.logger.Info(SR.StoppedToListen);
                 }
 
@@ -241,7 +236,6 @@ namespace Gridion.Core
             {
                 UnRegister(this);
                 this.listener.Stop();
-                this.IsListening = false;
             }
         }
     }

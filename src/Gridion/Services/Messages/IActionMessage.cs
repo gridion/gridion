@@ -1,4 +1,4 @@
-﻿// <copyright file="DistributedListTests.cs" company="Gridion">
+﻿// <copyright file="IActionMessage.cs" company="Gridion">
 //     Copyright (c) 2019-2021, Alex Efremov (https://github.com/alexander-efremov)
 // </copyright>
 // 
@@ -19,19 +19,12 @@
 // 
 // The latest version of this file can be found at https://github.com/gridion/gridion
 
-namespace Gridion.InternalTests.DistributedCollections.MultiNode
+namespace Gridion.Services.Messages
 {
-    using System.Diagnostics.CodeAnalysis;
+    using Gridion.Core;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-    /// <summary>
-    ///     Represents a set of test methods for <see cref="T:Gridion.Core.Collections.IDistributedList`1" /> interface.
-    /// </summary>
-    /// <inheritdoc />
-    [TestClass]
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed.")]
-    public class DistributedListTests : MultiNodeCollectionTestBase
+    internal interface IActionMessage : IMessage
     {
+        void Do(INodeInternal node);
     }
 }
